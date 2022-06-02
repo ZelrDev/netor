@@ -1,0 +1,23 @@
+{
+  "GET_API_GUILD_FAIL": "We could not find a server matching the URI given. Try regenerating the URL.",
+  "VALIDATE_DB_GUILD_FAIL": "Sorry, we can not authenticate you with this server. Try regenerating a link.",
+  "DELETE_URI_FAIL": "Failed to delete URI.",
+  "DELETE_EMBED_FAIL": "Failed to delete embed.",
+  "CREATE_EMBED_DB_FAIL": "Failed to create embed.",
+  "CREATE_EMBED_QUERY_FAIL": "Failed to query database for embed fields.",
+  "CREATE_SESSION_URI_QUERY_FAIL": "Failed to find URI.",
+  "CREATE_SESSION_URI_DB_FAIL": "Failed to create session URI.",
+  "VALIDATE_SESSION_URI_FAIL": "Failed to validate session URI.",
+  "GET_GUILD_EMBEDS_FAIL": "Failed to query database for embeds.",
+  "NO_GUILD_DB": "Could not find guild in database.",
+  "FAIL_GUILD_DB": "Failed to query database for server.",
+  "TOGGLE_DB_UM_FAIL": "Failed to toggle um.",
+  "UPDATE_DB_UM_CHANNEL_FAIL": "Failed to update um_channel.",
+  "UPDATE_DB_UM_MSG_FAIL": "Failed to update um_msg.",
+  "TOGGLE_DB_RTM_FAIL": "Failed to toggle rtm.",
+  "UPDATE_DB_RTM_CHANNEL_FAIL": "Failed to update rtm_channel.",
+  "GET_API_USER_FAIL": "Can't find that user or you are not authorized.",
+  "UNKNOWN_DB_ERROR": "The database has encounted an unknown error.",
+  "GET_DB_PUNISHMENTS_FAIL": "Failed to get punishments.",
+  "DELETE_DB_PUNISHMENT_FAIL": "Could not delete punishment."
+}

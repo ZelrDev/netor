@@ -1,0 +1,82 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model guild {
+  id                    String        @unique
+  uri                   uri[]
+  session_uri           session_uri[]
+  rtm_enabled           Boolean       @default(false)
+  rtm_channel_id        String        @default("")
+  embeds                embed[]
+  um_enabled            Boolean       @default(false)
+  um_welcome_raw_msg    String        @default("")
+  um_welcome_msg        String        @default("")
+  um_welcome_channel_id String        @default("")
+  um_leave_raw_msg      String        @default("")
+  um_leave_channel_id   String        @default("")
+  um_leave_msg          String        @default("")
+}
+
+model session_uri {
+  token    String @unique
+  guild    guild  @relation(references: [id], fields: [guild_id], onUpdate: Cascade, onDelete: Cascade)
+  guild_id String
+  user_id  String
+}
+
+model uri {
+  token    String @unique
+  guild    guild  @relation(references: [id], fields: [guild_id], onUpdate: Cascade, onDelete: Cascade)
+  guild_id String
+  user_id  String
+}
+
+model punishment {
+  id          String         @unique
+  user_id     String
+  guild_id    String
+  type        PunishmentType
+  date        DateTime
+  punisher_id String
+  reason      String         @default("No reason specified")
+  time        String         @default("")
+}
+
+model embed {
+  id              Int           @unique @default(autoincrement())
+  guild_id        String
+  guild           guild         @relation(references: [id], fields: [guild_id], onUpdate: Cascade, onDelete: Cascade)
+  title           String?
+  url             String?
+  description     String?
+  color           Int?
+  footer_text     String?
+  footer_icon_url String?
+  image_url       String?
+  thumbnail_url   String?
+  author_name     String?
+  author_url      String?
+  author_icon_url String?
+  fields          embed_field[]
+}
+
+model embed_field {
+  id       Int      @unique @default(autoincrement())
+  embed_id Int
+  embed    embed    @relation(references: [id], fields: [embed_id], onUpdate: Cascade, onDelete: Cascade)
+  name     String
+  value    String
+  inline   Boolean?
+}
+
+enum PunishmentType {
+  BAN
+  KICK
+  TIMEOUT
+}

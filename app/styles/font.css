@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-Light.woff2") format("woff2"),
+    url("/fonts/Whitney-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-Book.woff2") format("woff2"),
+    url("/fonts/Whitney-Book.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-Bold.woff2") format("woff2"),
+    url("/fonts/Whitney-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-BookItalic.woff2") format("woff2"),
+    url("/fonts/Whitney-BookItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-MediumItalic.woff2") format("woff2"),
+    url("/fonts/Whitney-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-LightItalic.woff2") format("woff2"),
+    url("/fonts/Whitney-LightItalic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-Semibold.woff2") format("woff2"),
+    url("/fonts/Whitney-Semibold.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-Medium.woff2") format("woff2"),
+    url("/fonts/Whitney-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Whitney";
+  src: url("/fonts/Whitney-SemiboldItalic.woff2") format("woff2"),
+    url("/fonts/Whitney-SemiboldItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}

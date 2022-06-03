@@ -1,46 +1,55 @@
-# Netor Reborn
+# Netor Dashboard
 
-## What's in the stack
+This repo contains the Dashboard for Netor. There is another repo for the Bot and API.
 
-- [Multi-region Fly app deployment](https://fly.io/docs/reference/scaling/) with [Docker](https://www.docker.com/)
-- [Multi-region Fly PostgreSQL Cluster](https://fly.io/docs/getting-started/multi-region-databases/)
-- Healthcheck endpoint for [Fly backups region fallbacks](https://fly.io/docs/reference/configuration/#services-http_checks)
-- [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
-- Token Authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
-- Database ORM with [Prisma](https://prisma.io)
-- Styling with [Mantine](https://mantine.dev/)
-- Local third party request mocking with [MSW](https://mswjs.io)
-- Code formatting with [Prettier](https://prettier.io)
-- Linting with [ESLint](https://eslint.org)
-- Static Types with [TypeScript](https://typescriptlang.org)
+# Tech Stack
+
+- [Prisma](https://prisma.io)
+- [Typescript](https://typescriptlang.org)
+- [ESLint](https://eslint.org)
+- [Prettier](https://prettier.io)
+- [Mantine](https://mantine.dev)
+- [Vercel](https://vercel.com)
+- [Docker](https://docker.com)
+- [RemixJS](https://remix.run)
 
 ## Development
 
 - Start the Postgres Database in [Docker](https://www.docker.com/get-started):
 
-  ```sh
-  npm run docker
-  ```
+```sh
+npm run docker
+```
 
-  > **Note:** The npm script will complete while Docker sets up the container in the background. Ensure that Docker has finished and your container is running before proceeding.
+- Create a `.env`:
+
+```
+DATABASE_URL="<database url, example: 'postgresql://postgres:postgres@localhost:5432/postgres'>"
+SESSION_SECRET="<can be anything>"
+API_URL="<api url, get this through setting up the bot>"
+SPECIAL_AUTH="<can be anything, must be the same for the bot and dashboard>"
+DEV="<yes or no>"
+```
+
+> **Note:** The npm script will complete while Docker sets up the container in the background. Ensure that Docker has finished and your container is running before proceeding.
 
 - Initial setup:
 
-  ```sh
-  npm run setup
-  ```
+```sh
+npm run setup
+```
 
 - Run the first build:
 
-  ```sh
-  npm run build
-  ```
+```sh
+npm run build
+```
 
 - Start dev server:
 
-  ```sh
-  npm run dev
-  ```
+```sh
+npm run dev
+```
 
 This starts your app in development mode, rebuilding assets on file changes.
 

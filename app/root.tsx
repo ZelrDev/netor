@@ -1,3 +1,4 @@
+import { NotificationsProvider } from "@mantine/notifications";
 import { useMantineTheme } from "@mantine/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
@@ -7,6 +8,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import { BrowserHistory } from "history";
 import type { ColorScheme } from "@mantine/core";
@@ -39,6 +41,16 @@ export const meta: MetaFunction = () => ({
 });
 
 import { DEFAULT_THEME, LoadingOverlay } from "@mantine/core";
+import { json } from "@remix-run/server-runtime";
+import { DevBuild } from "./components/DevBuild";
+
+export async function loader() {
+  return json({
+    ENV: {
+      DEV_BUILD: process.env.DEV?.toString() === "yes",
+    },
+  });
+}
 
 const customLoader = (
   <svg
@@ -71,6 +83,7 @@ export default function App() {
   const [loaderVisible, setLoaderVisible] = useState<boolean>(false);
   const location = useLocation();
   const theme = useMantineTheme();
+  const data = useLoaderData();
 
   const navigation = useContext(UNSAFE_NavigationContext)
     .navigator as BrowserHistory;
@@ -103,9 +116,15 @@ export default function App() {
             progress={progress}
             onLoaderFinished={() => setProgress(0)}
           />
+          <DevBuild />
           <Outlet />
         </MantineTheme>
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>
@@ -143,7 +162,9 @@ export function MantineTheme({ children }: { children: React.ReactNode }) {
         withNormalizeCSS
         withGlobalStyles
       >
-        <ModalsProvider>{children}</ModalsProvider>
+        <ModalsProvider>
+          <NotificationsProvider>{children}</NotificationsProvider>
+        </ModalsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );

@@ -1,4 +1,9 @@
-import { HashtagIcon } from "@heroicons/react/solid";
+import {
+  CheckIcon,
+  HashtagIcon,
+  XCircleIcon,
+  XIcon,
+} from "@heroicons/react/solid";
 import {
   Stack,
   Autocomplete,
@@ -10,6 +15,7 @@ import {
   Button,
   Box,
 } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { useLoaderData, useLocation } from "@remix-run/react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { DBGuild } from "~/models/dbGuild.server";
@@ -100,7 +106,21 @@ export const UM = (props: { type: "WELCOME" | "LEAVE" }) => {
     fetch(pathname, {
       body: formData,
       method: "post",
-    });
+    }).then((res) =>
+      res.ok
+        ? showNotification({
+            title: "Success",
+            color: "teal",
+            icon: <CheckIcon height={16} />,
+            message: "Saved your data",
+          })
+        : showNotification({
+            title: "Error",
+            color: "red",
+            icon: <XIcon height={16} />,
+            message: "Couldn't save your data",
+          })
+    );
   };
 
   return ready ? (

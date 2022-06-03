@@ -38,6 +38,7 @@
     "@mantine/dates": "^4.2.6",
     "@mantine/hooks": "^4.2.6",
     "@mantine/modals": "^4.2.6",
+    "@mantine/notifications": "^4.2.7",
     "@mantine/rte": "^4.2.7",
     "@mantine/ssr": "^4.2.6",
     "@prisma/client": "^3.11.1",

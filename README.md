@@ -21,6 +21,8 @@ This repo contains the Dashboard for Netor. There is another repo for the Bot an
 npm run docker
 ```
 
+> **Note:** The npm script will complete while Docker sets up the container in the background. Ensure that Docker has finished and your container is running before proceeding.
+
 - Create a `.env`:
 
 ```
@@ -30,8 +32,6 @@ API_URL="<api url, get this through setting up the bot>"
 SPECIAL_AUTH="<can be anything, must be the same for the bot and dashboard>"
 DEV="<yes or no>"
 ```
-
-> **Note:** The npm script will complete while Docker sets up the container in the background. Ensure that Docker has finished and your container is running before proceeding.
 
 - Initial setup:
 

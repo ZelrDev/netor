@@ -1,6 +1,6 @@
 # Netor Dashboard
 
-This repo contains the Dashboard for Netor. There is another repo for the [Bot and API](https://github.com/zelrdev/bot).
+This repo contains the Dashboard for Netor. There is another repo for the [Bot and API](https://github.com/zelrdev/netor-bot).
 
 ## Tech Stack
 
@@ -15,6 +15,12 @@ This repo contains the Dashboard for Netor. There is another repo for the [Bot a
 
 ## Development
 
+- Install dependencies:
+
+```sh
+npm i
+```
+
 - Start the Postgres Database in [Docker](https://www.docker.com/get-started):
 
 ```sh
@@ -26,7 +32,7 @@ npm run docker
 - Create a `.env`:
 
 ```
-DATABASE_URL="<database url, example: 'postgresql://postgres:postgres@localhost:5432/postgres'>"
+DATABASE_URL="<database url from docker, if in doubt use: 'postgresql://postgres:postgres@localhost:5432/postgres'>"
 SESSION_SECRET="<can be anything>"
 API_URL="<api url, get this through setting up the bot>"
 SPECIAL_AUTH="<can be anything, must be the same for the bot and dashboard>"

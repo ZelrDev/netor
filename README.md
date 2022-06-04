@@ -1,8 +1,8 @@
 # Netor Dashboard
 
-This repo contains the Dashboard for Netor. There is another repo for the Bot and API.
+This repo contains the Dashboard for Netor. There is another repo for the [Bot and API](https://github.com/zelrdev/bot).
 
-# Tech Stack
+## Tech Stack
 
 - [Prisma](https://prisma.io)
 - [Typescript](https://typescriptlang.org)

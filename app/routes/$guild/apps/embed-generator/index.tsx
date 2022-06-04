@@ -105,7 +105,6 @@ export default function Index() {
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
 
   useEffect(() => {
-    if (dbGuild.embed_generator_enabled) setChecked(true);
     setReady(true);
   }, []);
 

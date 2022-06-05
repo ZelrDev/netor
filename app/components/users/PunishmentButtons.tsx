@@ -25,6 +25,7 @@ import {
   useLocation,
   useNavigate,
   useParams,
+  useSubmit,
 } from "@remix-run/react";
 import { useState } from "react";
 import { openError } from "~/hooks/openError";
@@ -76,6 +77,7 @@ export const PunishmentButtons = () => {
       reason: "",
     },
   });
+  const submit = useSubmit();
 
   const handlePunishment = (type: {
     punishment: string;
@@ -201,24 +203,8 @@ export const PunishmentButtons = () => {
               formData.append("time", punishmentMS.toString());
             }
 
-            fetch(pathname + "?index", {
-              body: formData,
-              method: "post",
-            }).then(async (res) => {
-              if (!res.ok) {
-                const text = await res.text();
-                openError(modals, text);
-                setOpened(false);
-              }
-              if (res.ok) {
-                if (punishment !== "timeout") {
-                  navigate(`/${params.guild}/users`);
-                } else {
-                  navigate(".", { replace: true });
-                  setOpened(false);
-                }
-              }
-            });
+            setOpened(false);
+            submit(formData, { method: "post" });
           })}
         >
           <Stack>

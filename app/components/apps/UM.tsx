@@ -1,17 +1,7 @@
-import {
-  CheckIcon,
-  HashtagIcon,
-  XIcon,
-} from "@heroicons/react/solid";
-import {
-  Stack,
-  Autocomplete,
-  Text,
-  Button,
-  Box,
-} from "@mantine/core";
+import { CheckIcon, HashtagIcon, XIcon } from "@heroicons/react/solid";
+import { Stack, Autocomplete, Text, Button, Box } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { useLoaderData, useLocation } from "@remix-run/react";
+import { useLoaderData, useLocation, useSubmit } from "@remix-run/react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { DBGuild } from "~/models/dbGuild.server";
 import { APIGuild } from "~/requests/apiGuild.server";
@@ -48,6 +38,7 @@ export const UM = (props: { type: "WELCOME" | "LEAVE" }) => {
   const [message, setMessage] = useState("");
   const [ready, setReady] = useState<boolean>(false);
   const { pathname } = useLocation();
+  const submit = useSubmit();
 
   const mentions = useMemo(
     () => ({
@@ -98,24 +89,14 @@ export const UM = (props: { type: "WELCOME" | "LEAVE" }) => {
     );
     formData.append(`${props.type.toLowerCase()}_msg`, message);
 
-    fetch(pathname, {
-      body: formData,
-      method: "post",
-    }).then((res) =>
-      res.ok
-        ? showNotification({
-            title: "Success",
-            color: "teal",
-            icon: <CheckIcon height={16} />,
-            message: "Saved your data",
-          })
-        : showNotification({
-            title: "Error",
-            color: "red",
-            icon: <XIcon height={16} />,
-            message: "Couldn't save your data",
-          })
-    );
+    submit(formData, { method: "post" });
+
+    showNotification({
+      title: "Success",
+      color: "teal",
+      icon: <CheckIcon height={16} />,
+      message: "Saved your data",
+    });
   };
 
   return ready ? (

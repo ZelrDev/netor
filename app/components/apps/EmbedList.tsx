@@ -12,7 +12,12 @@ import {
   Text,
 } from "@mantine/core";
 import { useModals } from "@mantine/modals";
-import { useLoaderData, useLocation, useNavigate } from "@remix-run/react";
+import {
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useSubmit,
+} from "@remix-run/react";
 import { EmbedVisualizer, parseContent, parseTitle } from "embed-visualizer";
 import { useEffect, useRef, useState } from "react";
 import { openError } from "~/hooks/openError";
@@ -42,6 +47,7 @@ export const EmbedList = (props: { embeds: DBGuildEmbeds }) => {
   const [currentEmbed, setCurrentEmbed] = useState<DBGuildEmbed>();
   const { dbGuild, apiGuild, apiGuildChannels, dbGuildEmbeds } =
     useLoaderData() as LoaderData;
+  const submit = useSubmit();
   const [channel, setChannel] = useState<{
     id: string;
     value: string;
@@ -60,18 +66,7 @@ export const EmbedList = (props: { embeds: DBGuildEmbeds }) => {
     let formData = new FormData();
     formData.append("delete_embed", "true");
     formData.append("embed_id", embedId.toString());
-
-    fetch(pathname + "?index", {
-      body: formData,
-      method: "post",
-    }).then(async (res) => {
-      if (!res.ok) {
-        const text = await res.text();
-        openError(modals, text);
-      } else {
-        navigate(".", { replace: true });
-      }
-    });
+    submit(formData, { method: "post" });
   };
 
   const sendEmbed = (embed: DBGuildEmbed) => {
@@ -116,19 +111,7 @@ export const EmbedList = (props: { embeds: DBGuildEmbeds }) => {
                 "embed",
                 JSON.stringify(convertDBEmbedToDiscordEmbed(currentEmbed!))
               );
-
-              fetch(pathname + "?index", {
-                body: formData,
-                method: "post",
-              }).then(async (res) => {
-                if (!res.ok) {
-                  const text = await res.text();
-                  setOpened(false);
-                  openError(modals, text);
-                } else {
-                  navigate(".", { replace: true });
-                }
-              });
+              submit(formData, { method: "post" });
             }}
           >
             Send

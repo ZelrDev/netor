@@ -16,6 +16,7 @@ import {
   useLocation,
   useNavigate,
   useParams,
+  useSubmit,
 } from "@remix-run/react";
 import { EmbedVisualizer, parseContent, parseTitle } from "embed-visualizer";
 import { useEffect } from "react";
@@ -48,6 +49,7 @@ export const EmbedCreator = () => {
   const { dbGuild, apiGuild, apiGuildChannels, dbGuildEmbeds } =
     useLoaderData() as LoaderData;
 
+  const submit = useSubmit();
   const { pathname } = useLocation();
   const params = useParams();
   const navigate = useNavigate();
@@ -148,18 +150,7 @@ export const EmbedCreator = () => {
         onSubmit={form.onSubmit((values) => {
           let formData = new FormData();
           formData.append("embed", JSON.stringify(embed));
-
-          fetch(pathname, {
-            body: formData,
-            method: "post",
-          }).then(async (res) => {
-            if (!res.ok) {
-              const text = await res.text();
-              openError(modals, text);
-            } else {
-              navigate(`/${params.guild}/apps/embed-generator`);
-            }
-          });
+          submit(formData, { method: "post" });
         })}
       >
         <Stack>

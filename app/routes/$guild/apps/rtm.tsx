@@ -1,6 +1,11 @@
 import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useLocation, useParams } from "@remix-run/react";
+import {
+  useLoaderData,
+  useLocation,
+  useParams,
+  useSubmit,
+} from "@remix-run/react";
 import {
   getDBGuild,
   toggleRTM,
@@ -89,6 +94,7 @@ export default function Index() {
   const [localAutocompleteValue, setLocalAutocompleteValue] = useState(
     selectedData?.value
   );
+  const submit = useSubmit();
   const [ready, setReady] = useState<boolean>(false);
   const { pathname } = useLocation();
   const params = useParams();
@@ -118,11 +124,7 @@ export default function Index() {
       let formData = new FormData();
       formData.append("enabled", checked!.toString());
       formData.append("channel", selectedData?.id!.toString() ?? "");
-
-      fetch(pathname, {
-        body: formData,
-        method: "post",
-      });
+      submit(formData, { method: "post" });
     }
   }, [selectedData, checked]);
 

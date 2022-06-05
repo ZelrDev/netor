@@ -1,6 +1,11 @@
 import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useLocation, useParams } from "@remix-run/react";
+import {
+  useLoaderData,
+  useLocation,
+  useParams,
+  useSubmit,
+} from "@remix-run/react";
 import {
   getDBGuild,
   toggleRTM,
@@ -140,6 +145,7 @@ export default function Index() {
   const { pathname } = useLocation();
   const params = useParams();
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
+  const submit = useSubmit();
 
   useEffect(() => {
     if (dbGuild.um_enabled) setChecked(true);
@@ -151,11 +157,7 @@ export default function Index() {
     if (ready) {
       let formData = new FormData();
       formData.append("enabled", checked!.toString());
-
-      fetch(pathname, {
-        body: formData,
-        method: "post",
-      });
+      submit(formData, { method: "post" });
     }
   }, [checked]);
 

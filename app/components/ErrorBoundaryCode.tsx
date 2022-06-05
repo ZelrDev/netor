@@ -14,7 +14,7 @@ import {
   LiveReload,
   ScrollRestoration,
 } from "@remix-run/react";
-import { MantineTheme } from "~/root";
+import { Document } from "./Document";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -61,35 +61,24 @@ export const ErrorBoundary = ({ error }: { error: Error }) => {
   const { classes } = useStyles();
   console.error(error);
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <MantineTheme>
-          <Container className={classes.root}>
-            <div className={classes.label}>{error.name}</div>
-            <Title className={classes.title}>Something went wrong</Title>
-            <Text
-              color="dimmed"
-              size="lg"
-              align="center"
-              className={classes.description}
-            >
-              <Code block>{error.stack ? error.stack : error.message}</Code>
-            </Text>
-            <Group position="center">
-              <Button onClick={() => history.back()} variant="subtle" size="md">
-                Go back
-              </Button>
-            </Group>
-          </Container>
-        </MantineTheme>
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <Document>
+      <Container className={classes.root}>
+        <div className={classes.label}></div>
+        <Title className={classes.title}>Something went wrong</Title>
+        <Text
+          color="dimmed"
+          size="lg"
+          align="center"
+          className={classes.description}
+        >
+          <Code block>{error.stack ? error.stack : error.message}</Code>
+        </Text>
+        <Group position="center">
+          <Button onClick={() => history.back()} variant="subtle" size="md">
+            Go back
+          </Button>
+        </Group>
+      </Container>
+    </Document>
   );
 };

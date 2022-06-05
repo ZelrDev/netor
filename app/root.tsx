@@ -43,6 +43,7 @@ export const meta: MetaFunction = () => ({
 import { DEFAULT_THEME, LoadingOverlay } from "@mantine/core";
 import { json } from "@remix-run/server-runtime";
 import { DevBuild } from "./components/DevBuild";
+import { Document } from "./components/Document";
 
 export async function loader() {
   return json({
@@ -83,7 +84,6 @@ export default function App() {
   const [loaderVisible, setLoaderVisible] = useState<boolean>(false);
   const location = useLocation();
   const theme = useMantineTheme();
-  const data = useLoaderData();
 
   const navigation = useContext(UNSAFE_NavigationContext)
     .navigator as BrowserHistory;
@@ -102,70 +102,16 @@ export default function App() {
   }, [location]);
 
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <MantineTheme>
-          <LoadingOverlay loader={customLoader} visible={loaderVisible} />
-          <LoadingBar
-            shadow
-            color={theme.colors.indigo[5]}
-            progress={progress}
-            onLoaderFinished={() => setProgress(0)}
-          />
-          <DevBuild />
-          <Outlet />
-        </MantineTheme>
-        <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  );
-}
-
-export function MantineTheme({ children }: { children: React.ReactNode }) {
-  const preferredColorScheme = useColorScheme(undefined);
-
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme | "system">(
-    "color-scheme",
-    "system"
-  );
-  useEffect(() => {
-    if (colorScheme == null) setColorScheme("system");
-  }, [colorScheme]);
-
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
-
-  return (
-    <ColorSchemeProvider
-      colorScheme={
-        colorScheme === "system" ? preferredColorScheme : colorScheme
-      }
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider
-        theme={{
-          colorScheme:
-            colorScheme === "system" ? preferredColorScheme : colorScheme,
-          primaryColor: "indigo",
-        }}
-        withNormalizeCSS
-        withGlobalStyles
-      >
-        <ModalsProvider>
-          <NotificationsProvider>{children}</NotificationsProvider>
-        </ModalsProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+    <Document>
+      <LoadingOverlay loader={customLoader} visible={loaderVisible} />
+      <LoadingBar
+        shadow
+        color={theme.colors.indigo[5]}
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
+      <DevBuild />
+      <Outlet />
+    </Document>
   );
 }

@@ -16,7 +16,7 @@ import {
   ScrollRestoration,
   useCatch,
 } from "@remix-run/react";
-import { MantineTheme } from "~/root";
+import { Document } from "./Document";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -66,37 +66,26 @@ export const CatchBoundary = () => {
   return caught.data?.raw_error ? (
     caught.data?.message
   ) : (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <MantineTheme>
-          <Container className={classes.root}>
-            <div className={classes.label}>{caught?.status}</div>
-            <Title className={classes.title}>
-              {caught.status === 404 ? "Not found" : caught.data?.title}
-            </Title>
-            <Text
-              color="dimmed"
-              size="lg"
-              align="center"
-              className={classes?.description}
-            >
-              {caught.data?.message}
-            </Text>
-            <Group position="center">
-              <Button onClick={() => history.back()} variant="subtle" size="md">
-                Go back
-              </Button>
-            </Group>
-          </Container>
-        </MantineTheme>
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <Document>
+      <Container className={classes.root}>
+        <div className={classes.label}>{caught?.status}</div>
+        <Title className={classes.title}>
+          {caught.status === 404 ? "Not found" : caught.data?.title}
+        </Title>
+        <Text
+          color="dimmed"
+          size="lg"
+          align="center"
+          className={classes?.description}
+        >
+          {caught.data?.message}
+        </Text>
+        <Group position="center">
+          <Button onClick={() => history.back()} variant="subtle" size="md">
+            Go back
+          </Button>
+        </Group>
+      </Container>
+    </Document>
   );
 };

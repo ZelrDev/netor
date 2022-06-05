@@ -22,6 +22,7 @@ import DiscordEmbed from "types/DiscordEmbed";
 import { error } from "~/utils";
 import errors from "~/errors.json";
 import { DoubleNavbar } from "~/components/Navbar";
+import { redirect } from "@remix-run/server-runtime";
 
 type LoaderData = {
   dbGuild: DBGuild;
@@ -66,8 +67,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     const embed: DiscordEmbed = JSON.parse(data.get("embed")!.toString());
     await createDBEmbed(params.guild, embed, true);
   }
-
-  return "OK";
+  redirect(`/${params.guild}/apps/embed-generator`);
 };
 
 export default function Index() {

@@ -13,6 +13,7 @@ import {
 import { ChatAlt2Icon, XIcon } from "@heroicons/react/solid";
 import {
   useActionData,
+  useFetcher,
   useLocation,
   useNavigate,
   useSubmit,
@@ -23,31 +24,13 @@ import { useModals } from "@mantine/modals";
 
 export const CurrentTimeout = (props: { member: APIGuildMember }) => {
   const timedOut = props.member.communication_disabled_until !== null;
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
-  const submit = useSubmit();
-  const modals = useModals();
   const data = useSubmit();
-  const actionData = useActionData();
-
-  console.log(actionData);
 
   const removeTimeout = () => {
     let formData = new FormData();
     formData.append("user_id", props.member.user!.id);
     formData.append("remove_timeout", "true");
-    submit(formData, { replace: false, method: "post" });
-    // fetch(pathname + "?index", {
-    //   body: formData,
-    //   method: "post",
-    // }).then(async (res) => {
-    //   if (!res.ok) {
-    //     const text = await res.text();
-    //     openError(modals, text);
-    //   } else {
-    //     navigate(".", { replace: true });
-    //   }
-    // });
+    data(formData, { method: "post" });
   };
 
   const getCountdown = (

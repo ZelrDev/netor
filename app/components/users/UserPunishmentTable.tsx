@@ -22,7 +22,13 @@ import {
   Center,
   Chip,
 } from "@mantine/core";
-import { useParams, Link, useLocation, useNavigate } from "@remix-run/react";
+import {
+  useParams,
+  Link,
+  useLocation,
+  useNavigate,
+  useSubmit,
+} from "@remix-run/react";
 import ReactTimeAgo from "react-time-ago";
 import { DBGuildMemberPunishments } from "~/models/dbGuildPunishments.server";
 import { openError } from "~/hooks/openError";
@@ -44,6 +50,7 @@ export const UserPunishmentTable = (props: {
   const { pathname } = useLocation();
   const navigateURL = (id: string) => `/${params.guild}/users/${id}`;
   const navigate = useNavigate();
+  const submit = useSubmit();
 
   const getTime = (
     days: string,
@@ -98,39 +105,15 @@ export const UserPunishmentTable = (props: {
       let formData = new FormData();
       formData.append("user_id", props.user!.id);
       formData.append("remove_" + type.toLowerCase(), "true");
-
-      fetch(pathname, {
-        body: formData,
-        method: "post",
-      }).then(async (res) => {
-        if (!res.ok) {
-          const text = await res.text();
-          openError(modals, text);
-        } else {
-          navigate(".", { replace: true });
-        }
-      });
+      submit(formData, { method: "post" });
     }
   };
 
   const removePunishment = (id: string) => {
     const formData = new FormData();
-
     formData.append("remove_punishment", "true");
     formData.append("punishment_id", id);
-
-    fetch(pathname, {
-      body: formData,
-      method: "post",
-    }).then(async (res) => {
-      if (!res.ok) {
-        const text = await res.text();
-        openError(modals, text);
-      }
-      if (res.ok) {
-        navigate(".", { replace: true });
-      }
-    });
+    submit(formData, { method: "post" });
   };
 
   return (

@@ -18,6 +18,7 @@ import {
   useLocation,
   useNavigate,
   useParams,
+  useSubmit,
 } from "@remix-run/react";
 import { ActionFunction, json } from "@remix-run/server-runtime";
 import { ButtonsGroup } from "~/components/ButtonsGroup";
@@ -110,9 +111,10 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function Index() {
-  const { pathname, search } = useLocation();
+  const { search } = useLocation();
   const params = useParams();
   const navigate = useNavigate();
+  const submit = useSubmit();
   const urlParams = new URLSearchParams(search);
   const { afterUser, beforeUser } = useLoaderData() as LoaderData;
 
@@ -120,12 +122,8 @@ export default function Index() {
     let formData = new FormData();
     formData.append("switch", switchUser);
 
-    fetch(pathname + "?index", {
-      body: formData,
-      method: "post",
-    }).then(async (res) => {
-      navigate(safeRedirect(urlParams.get("url") || `/${params.guild}/apps`));
-    });
+    submit(formData, { method: "post" });
+    navigate(safeRedirect(urlParams.get("url") || `/${params.guild}/apps`));
   };
 
   return (

@@ -1,6 +1,12 @@
 import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
+import {
+  Link,
+  useLoaderData,
+  useLocation,
+  useParams,
+  useSubmit,
+} from "@remix-run/react";
 import {
   DBGuildEmbeds,
   deleteDBEmbed,
@@ -99,7 +105,7 @@ export default function Index() {
   const { dbGuild, dbGuildEmbeds } = useLoaderData() as LoaderData;
   const [checked, setChecked] = useState<boolean>(false);
   const [ready, setReady] = useState<boolean>(false);
-  const { pathname } = useLocation();
+  const submit = useSubmit();
   const params = useParams();
 
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
@@ -112,11 +118,7 @@ export default function Index() {
     if (ready) {
       let formData = new FormData();
       formData.append("enabled", checked!.toString());
-
-      fetch(pathname + "?index", {
-        body: formData,
-        method: "post",
-      });
+      submit(formData, { method: "post" });
     }
   }, [checked]);
 

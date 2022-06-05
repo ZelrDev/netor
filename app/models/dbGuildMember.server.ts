@@ -143,7 +143,7 @@ export const getDBGuildMemberPunishments = async (
     return newPunishments;
   } catch (e) {
     console.log(e);
-    error(false, errors.GET_DB_PUNISHMENTS_FAIL, 500, rawErrorOutput);
+    error(false, e, 500, rawErrorOutput);
   }
 };
 

@@ -211,6 +211,10 @@ export function DoubleNavbar({ children }: { children: any }) {
               label: "Punishment History",
               href: `${params.member}/punishment-history`,
             },
+            {
+              label: "Invite History",
+              href: `${params.member}/invite-history`,
+            },
           ]
         : undefined,
     },

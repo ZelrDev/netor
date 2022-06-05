@@ -22,9 +22,9 @@ import { CurrentTimeout } from "~/components/users/CurrentTimeout";
 import {
   DBGuildMemberPunishmentsRAW,
   getDBGuildMemberPunishmentsRAW,
-} from "~/models/dbGuildPunishments.server";
+} from "~/models/dbGuildMember.server";
 import { PluginCard } from "~/components/PluginCard";
-import { ClipboardCheckIcon } from "@heroicons/react/solid";
+import { ClipboardCheckIcon, UserAddIcon } from "@heroicons/react/solid";
 
 import { discordAvatar, error } from "~/utils";
 import errors from "~/errors.json";
@@ -91,7 +91,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       reason ?? "No reason specified"
     );
     error(result.result, result.message, 500, true);
-    redirect(`/${params.guild}/users`);
+    return redirect(`/${params.guild}/users`);
   }
   if (data.get("kick") === "true") {
     const id = data.get("user_id")?.toString();
@@ -105,7 +105,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       reason ?? "No reason specified"
     );
     error(result.result, result.message, 500, true);
-    redirect(`/${params.guild}/users`);
+    return redirect(`/${params.guild}/users`);
   }
   if (data.get("timeout") === "true") {
     const id = data.get("user_id")?.toString();
@@ -185,6 +185,12 @@ export default function Index() {
           link={navigatePluginURL("punishment-history")}
           Icon={ClipboardCheckIcon}
           description={"Review and delete recent punishments"}
+        />
+        <PluginCard
+          title={"Invite History"}
+          link={navigatePluginURL("invite-history")}
+          Icon={UserAddIcon}
+          description={"Review and delete invites from users"}
         />
       </SimpleGrid>
 

@@ -41,17 +41,8 @@ export const meta: MetaFunction = () => ({
 });
 
 import { DEFAULT_THEME, LoadingOverlay } from "@mantine/core";
-import { json } from "@remix-run/server-runtime";
 import { DevBuild } from "./components/DevBuild";
 import { Document } from "./components/Document";
-
-export async function loader() {
-  return json({
-    ENV: {
-      DEV_BUILD: process.env.DEV?.toString() === "yes",
-    },
-  });
-}
 
 const customLoader = (
   <svg

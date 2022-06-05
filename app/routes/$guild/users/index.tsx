@@ -79,6 +79,14 @@ export default function Index() {
         radius="xs"
         mb="md"
       >
+        Due to caching it may take up to 1 minute to update this list
+      </Alert>
+      <Alert
+        icon={<ExclamationCircleIcon width={16} />}
+        color="yellow"
+        radius="xs"
+        mb="md"
+      >
         Results are limited to 1000 due to Discord. To find a user right click
         them in Discord and select "Apps {">"} View User".
       </Alert>

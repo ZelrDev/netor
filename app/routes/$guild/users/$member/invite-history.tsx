@@ -18,8 +18,12 @@ import { HeaderSimple } from "~/components/Header";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { Container, Title } from "@mantine/core";
 import {
+  DBGuildMemberInvites,
   DBGuildMemberPunishments,
+  getDBGuildMemberInvites,
+  getDBGuildMemberInvitesRAW,
   getDBGuildMemberPunishments,
+  removeDBGuildMemberInvite,
   removeDBGuildMemberPunishment,
 } from "~/models/dbGuildMember.server";
 import { UserPunishmentTable } from "~/components/users/UserPunishmentTable";
@@ -29,14 +33,14 @@ import { useEffect, useState } from "react";
 import { error } from "~/utils";
 import errors from "~/errors.json";
 import { DoubleNavbar } from "~/components/Navbar";
+import { InviteTable } from "~/components/users/InviteTable";
 
 type LoaderData = {
   dbGuild: DBGuild;
   apiGuild: APIGuild;
   apiUser: APIUser | undefined;
   apiGuildMember: APIGuildMember | undefined;
-  apiGuildMemberBan: APIGuildMemberBan;
-  dbGuildMemberPunishments: DBGuildMemberPunishments;
+  dbGuildMemberInvites: DBGuildMemberInvites;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -47,19 +51,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   error(uri, `session is required`, 400);
   error(params.member, `params.member is required`, 400);
 
-  const [
-    dbGuild,
-    apiGuild,
-    apiGuildMember,
-    dbGuildMemberPunishments,
-    apiGuildMemberBan,
-  ] = await Promise.all([
-    getDBGuild(params.guild, uri),
-    getAPIGuild(params.guild, uri),
-    getAPIGuildMember(params.guild, uri, params.member),
-    getDBGuildMemberPunishments(params.guild, params.member, uri, true),
-    getAPIGuildMemberBan(params.guild, uri, params.member),
-  ]);
+  const [dbGuild, apiGuild, apiGuildMember, dbGuildMemberInvites] =
+    await Promise.all([
+      getDBGuild(params.guild, uri),
+      getAPIGuild(params.guild, uri),
+      getAPIGuildMember(params.guild, uri, params.member),
+      getDBGuildMemberInvites(params.guild, params.member, uri),
+    ]);
 
   error(apiGuild.completed, errors.GET_API_GUILD_FAIL, 401);
 
@@ -70,15 +68,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     error(apiUser.completed, errors.GET_API_USER_FAIL, 404);
   }
 
-  error(apiGuildMemberBan.completed === true, errors.GET_DB_PUNISHMENTS_FAIL);
-
   return json<LoaderData>({
     dbGuild,
+    dbGuildMemberInvites,
     apiGuild: apiGuild.result!,
     apiUser: apiUser?.result,
     apiGuildMember: apiGuildMember.result,
-    apiGuildMemberBan: apiGuildMemberBan.result!,
-    dbGuildMemberPunishments,
   });
 };
 
@@ -94,44 +89,20 @@ export const action: ActionFunction = async ({ request, params }) => {
   const validate = await validateSessionURI(params.guild, uri, true);
   error(validate, errors.VALIDATE_DB_GUILD_FAIL, 401, true);
 
-  if (data.get("remove_punishment") === "true") {
-    const id = data.get("punishment_id")?.toString();
+  if (data.get("remove_invite") === "true") {
+    const id = data.get("invite_id")?.toString();
 
-    error(id, "punishment_id is required", 400, true);
+    error(id, "invite_id is required", 400, true);
 
-    await removeDBGuildMemberPunishment(id, true);
-  }
-  if (data.get("remove_timeout") === "true") {
-    const id = data.get("user_id")?.toString();
-    error(id, "id is required", 400, true);
-
-    const result = await removeTimeoutAPIGuildMember(params.guild, uri, id);
-    error(result.result, result.message, 500, true);
-  }
-  if (data.get("remove_ban") === "true") {
-    const id = data.get("user_id")?.toString();
-    error(id, "id is required", 400, true);
-
-    const result = await removeBanAPIGuildMember(params.guild, uri, id);
-    error(result.result, result.message, 500, true);
+    await removeDBGuildMemberInvite(id, true);
   }
 
   return "OK";
 };
 
 export default function Index() {
-  let { apiUser, dbGuildMemberPunishments, apiGuildMember, apiGuildMemberBan } =
+  let { apiUser, apiGuildMember, dbGuildMemberInvites } =
     useLoaderData() as LoaderData;
-
-  const [banned, setBanned] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (apiGuildMemberBan == null) {
-      setBanned(false);
-    } else {
-      setBanned(true);
-    }
-  }, []);
 
   if (apiUser === undefined) {
     apiUser = apiGuildMember!.user!;
@@ -142,8 +113,9 @@ export default function Index() {
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
   const navigateUserURL = (id: string) => `/${params.guild}/users/${id}`;
 
-  const punishmentsSorted = dbGuildMemberPunishments.sort(
-    (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+  const invitesSorted = dbGuildMemberInvites.sort(
+    (a, b) =>
+      new Date(b.date_created).valueOf() - new Date(a.date_created).valueOf()
   );
 
   return (
@@ -156,20 +128,19 @@ export default function Index() {
           },
           {
             title: apiUser!.username,
-            href: banned ? undefined : navigateUserURL(params.member!),
+            href: navigateUserURL(params.member!),
           },
           {
-            title: "Punishment History",
-            href: navigateUserURL(params.member! + "/punishment-history"),
+            title: "Invite History",
+            href: navigateUserURL(params.member! + "/invite-history"),
           },
         ]}
       />
-      <Title order={1}>Punishment History</Title>
-      <UserPunishmentTable
-        banned={banned}
+      <Title order={1}>Invite History</Title>
+      <InviteTable
+        invites={invitesSorted}
         user={apiUser}
         member={apiGuildMember}
-        punishments={punishmentsSorted}
       />
     </DoubleNavbar>
   );

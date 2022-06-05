@@ -19,5 +19,7 @@
   "GET_API_USER_FAIL": "Can't find that user or you are not authorized.",
   "UNKNOWN_DB_ERROR": "The database has encounted an unknown error.",
   "GET_DB_PUNISHMENTS_FAIL": "Failed to get punishments.",
-  "DELETE_DB_PUNISHMENT_FAIL": "Could not delete punishment."
+  "GET_DB_INVITES_FAIL": "Failed to get invites.",
+  "DELETE_DB_PUNISHMENT_FAIL": "Could not delete punishment.",
+  "DELETE_DB_INVITE_FAIL": "Could not delete invite."
 }

@@ -30,7 +30,7 @@ import {
   useSubmit,
 } from "@remix-run/react";
 import ReactTimeAgo from "react-time-ago";
-import { DBGuildMemberPunishments } from "~/models/dbGuildPunishments.server";
+import { DBGuildMemberPunishments } from "~/models/dbGuildMember.server";
 import { openError } from "~/hooks/openError";
 import { useModals } from "@mantine/modals";
 import { APIGuildMember } from "~/requests/apiGuildMember.server";

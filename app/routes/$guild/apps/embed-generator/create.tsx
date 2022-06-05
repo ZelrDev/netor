@@ -67,7 +67,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     const embed: DiscordEmbed = JSON.parse(data.get("embed")!.toString());
     await createDBEmbed(params.guild, embed, true);
   }
-  redirect(`/${params.guild}/apps/embed-generator`);
+  return redirect(`/${params.guild}/apps/embed-generator`);
 };
 
 export default function Index() {

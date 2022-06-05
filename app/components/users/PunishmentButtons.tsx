@@ -33,7 +33,7 @@ import { DBGuild } from "~/models/dbGuild.server";
 import {
   DBGuildMemberPunishments,
   DBGuildMemberPunishmentsRAW,
-} from "~/models/dbGuildPunishments.server";
+} from "~/models/dbGuildMember.server";
 import { APIGuild } from "~/requests/apiGuild.server";
 import { APIGuildMember } from "~/requests/apiGuildMember.server";
 import { StyledTabs } from "../Tabs";

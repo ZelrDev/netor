@@ -81,11 +81,6 @@ export function Document({ children }: DocumentProps) {
       <body>
         <MantineTheme>{children}</MantineTheme>
         <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>

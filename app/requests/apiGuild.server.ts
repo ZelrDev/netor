@@ -1,4 +1,4 @@
-import { APIGuild } from "discord-api-types/v10";
+import type { APIGuild } from "discord-api-types/v10";
 import type { APIMessage } from "types/APIMessage";
 
 export type { APIGuild } from "discord-api-types/v10";

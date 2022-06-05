@@ -1,5 +1,5 @@
 import React from "react";
-import { createStyles, Group, Button } from "@mantine/core";
+import { createStyles, Group } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {

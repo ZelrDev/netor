@@ -1,16 +1,9 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  useLoaderData,
-  useLocation,
-  useParams,
-  useSubmit,
-} from "@remix-run/react";
+import { useLoaderData, useParams, useSubmit } from "@remix-run/react";
 import {
   getDBGuild,
-  toggleRTM,
   toggleUM,
-  updateRTMChannel,
   updateUMLeaveChannel,
   updateUMLeaveMessage,
   updateUMLeaveMessageRAW,
@@ -25,19 +18,10 @@ import { getAPIGuild } from "~/requests/apiGuild.server";
 import { getAPIGuildChannels } from "~/requests/apiGuildChannels.server";
 import type { APIGuildChannels } from "~/requests/apiGuildChannels.server";
 import { getSession } from "~/sessions";
-import {
-  Alert,
-  Autocomplete,
-  Container,
-  Group,
-  Stack,
-  Switch,
-  Title,
-} from "@mantine/core";
-import { ExclamationCircleIcon, HashtagIcon } from "@heroicons/react/solid";
+import { Alert, Stack, Switch, Title } from "@mantine/core";
+import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { cleanUpMessage, error } from "~/utils";
-import errors from "~/errors.json";
 import { DoubleNavbar } from "~/components/Navbar";
 import { tags, UM } from "~/components/apps/UM";
 
@@ -139,10 +123,9 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function Index() {
-  const { dbGuild, apiGuildChannels } = useLoaderData() as LoaderData;
+  const { dbGuild } = useLoaderData() as LoaderData;
   const [checked, setChecked] = useState<boolean>(false);
   const [ready, setReady] = useState<boolean>(false);
-  const { pathname } = useLocation();
   const params = useParams();
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
   const submit = useSubmit();
@@ -151,6 +134,7 @@ export default function Index() {
     if (dbGuild.um_enabled) setChecked(true);
     // wait for checked to be fully set to true so it doesnt trigger a post request
     setTimeout(() => setReady(true), 250);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -159,6 +143,7 @@ export default function Index() {
       formData.append("enabled", checked!.toString());
       submit(formData, { method: "post" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked]);
 
   return (

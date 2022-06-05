@@ -1,7 +1,5 @@
-import { ArrowCircleRightIcon, ArrowRightIcon } from "@heroicons/react/solid";
+import { ArrowRightIcon } from "@heroicons/react/solid";
 import {
-  Anchor,
-  Box,
   Button,
   Center,
   Group,
@@ -12,7 +10,8 @@ import {
   ThemeIcon,
   Title,
 } from "@mantine/core";
-import { LoaderFunction, redirect } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import {
   useLoaderData,
   useLocation,
@@ -20,7 +19,8 @@ import {
   useParams,
   useSubmit,
 } from "@remix-run/react";
-import { ActionFunction, json } from "@remix-run/server-runtime";
+import type { ActionFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 import { ButtonsGroup } from "~/components/ButtonsGroup";
 import {
   createSessionURI,
@@ -29,7 +29,8 @@ import {
   getSessionURI,
   getURI,
 } from "~/models/dbGuild.server";
-import { APIUser, getAPIUser } from "~/requests/apiUser";
+import type { APIUser } from "~/requests/apiUser";
+import { getAPIUser } from "~/requests/apiUser";
 import { getSession, commitSession } from "~/sessions";
 import { discordAvatar, error, safeRedirect } from "~/utils";
 

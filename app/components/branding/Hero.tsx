@@ -6,7 +6,6 @@ import {
   Button,
   Overlay,
   createStyles,
-  Center,
 } from "@mantine/core";
 import heroImage from "~/images/hero.png";
 

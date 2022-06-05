@@ -7,15 +7,7 @@ import {
   Container,
   Group,
 } from "@mantine/core";
-import {
-  Link,
-  Links,
-  LiveReload,
-  Meta,
-  Scripts,
-  ScrollRestoration,
-  useCatch,
-} from "@remix-run/react";
+import { useCatch } from "@remix-run/react";
 import { Document } from "./Document";
 
 const useStyles = createStyles((theme) => ({

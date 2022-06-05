@@ -1,4 +1,5 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { getDBGuild, validateSessionURI } from "~/models/dbGuild.server";
@@ -15,14 +16,11 @@ import {
 } from "~/requests/apiGuildMember.server";
 import type { APIGuildMember } from "~/requests/apiGuildMember.server";
 import { PunishmentButtons } from "~/components/users/PunishmentButtons";
-import { HeaderSimple } from "~/components/Header";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
-import { Avatar, Container, Group, SimpleGrid, Title } from "@mantine/core";
+import { Avatar, Group, SimpleGrid, Title } from "@mantine/core";
 import { CurrentTimeout } from "~/components/users/CurrentTimeout";
-import {
-  DBGuildMemberPunishmentsRAW,
-  getDBGuildMemberPunishmentsRAW,
-} from "~/models/dbGuildMember.server";
+import type { DBGuildMemberPunishmentsRAW } from "~/models/dbGuildMember.server";
+import { getDBGuildMemberPunishmentsRAW } from "~/models/dbGuildMember.server";
 import { PluginCard } from "~/components/PluginCard";
 import { ClipboardCheckIcon, UserAddIcon } from "@heroicons/react/solid";
 

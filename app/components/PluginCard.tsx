@@ -1,18 +1,6 @@
-import { ChatAlt2Icon } from "@heroicons/react/solid";
-import {
-  Box,
-  Card,
-  Grid,
-  Paper,
-  Stack,
-  Text,
-  Title,
-  useMantineColorScheme,
-  useMantineTheme,
-} from "@mantine/core";
+import { Box, Paper, Text, Title, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
-import { Link, useNavigate } from "@remix-run/react";
-import { ReactNode } from "react";
+import { useNavigate } from "@remix-run/react";
 
 interface PluginCardProps
   extends React.DetailedHTMLProps<

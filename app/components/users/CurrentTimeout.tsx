@@ -1,4 +1,4 @@
-import { APIGuildMember } from "~/requests/apiGuildMember.server";
+import type { APIGuildMember } from "~/requests/apiGuildMember.server";
 import Countdown from "react-countdown";
 import {
   Box,
@@ -8,19 +8,9 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useMantineTheme,
 } from "@mantine/core";
 import { ChatAlt2Icon, XIcon } from "@heroicons/react/solid";
-import {
-  useActionData,
-  useFetcher,
-  useLocation,
-  useNavigate,
-  useSubmit,
-  useTransition,
-} from "@remix-run/react";
-import { openError } from "~/hooks/openError";
-import { useModals } from "@mantine/modals";
+import { useSubmit } from "@remix-run/react";
 
 export const CurrentTimeout = (props: { member: APIGuildMember }) => {
   const timedOut = props.member.communication_disabled_until !== null;

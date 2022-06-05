@@ -8,15 +8,16 @@ import type { APIGuild } from "~/requests/apiGuild.server";
 import { getSession } from "~/sessions";
 import { UserTable } from "~/components/users/UserTable";
 import {
-  APIGuildBannedMembers,
   getAPIGuildBannedMembers,
   getAPIGuildMembers,
 } from "~/requests/apiGuildMembers.server";
-import type { APIGuildMembers } from "~/requests/apiGuildMembers.server";
+import type {
+  APIGuildMembers,
+  APIGuildBannedMembers,
+} from "~/requests/apiGuildMembers.server";
 import type { APIGuildRoles } from "~/requests/apiGuildRoles.server";
 import { getAPIGuildRoles } from "~/requests/apiGuildRoles.server";
-import { HeaderSimple } from "~/components/Header";
-import { Alert, Container, Title } from "@mantine/core";
+import { Alert, Title } from "@mantine/core";
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import { error } from "~/utils";
 import errors from "~/errors.json";

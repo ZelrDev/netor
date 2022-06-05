@@ -1,29 +1,18 @@
-import { NotificationsProvider } from "@mantine/notifications";
 import { useMantineTheme } from "@mantine/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-} from "@remix-run/react";
-import { BrowserHistory } from "history";
-import type { ColorScheme } from "@mantine/core";
-import { ModalsProvider } from "@mantine/modals";
-import React, { useContext, useEffect } from "react";
-import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
+import { Outlet } from "@remix-run/react";
+import type { BrowserHistory } from "history";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { UNSAFE_NavigationContext, useLocation } from "react-router";
 import LoadingBar from "react-top-loading-bar";
-export { ErrorBoundary } from "~/components/ErrorBoundaryCode";
 import discordStyleSheetUrl from "./styles/discord.css";
 import fontStyles from "./styles/font.css";
 import rootStyles from "./styles/globals.css";
-import { useColorScheme } from "@mantine/hooks";
-import useLocalStorage from "./hooks/useLocalStorage";
+import { DEFAULT_THEME, LoadingOverlay } from "@mantine/core";
+import { DevBuild } from "./components/DevBuild";
+import { Document } from "./components/Document";
+export { ErrorBoundary } from "~/components/ErrorBoundaryCode";
 export { CatchBoundary } from "~/components/CatchBoundary";
 
 export const links: LinksFunction = () => {
@@ -39,10 +28,6 @@ export const meta: MetaFunction = () => ({
   title: "Netor",
   viewport: "width=device-width,initial-scale=1",
 });
-
-import { DEFAULT_THEME, LoadingOverlay } from "@mantine/core";
-import { DevBuild } from "./components/DevBuild";
-import { Document } from "./components/Document";
 
 const customLoader = (
   <svg

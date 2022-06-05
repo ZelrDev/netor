@@ -1,4 +1,5 @@
-import { LoaderFunction, redirect } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { deleteSessionURI } from "~/models/dbGuild.server";
 import { getSession, destroySession } from "~/sessions";
 import { error, safeRedirect } from "~/utils";

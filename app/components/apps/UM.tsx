@@ -1,11 +1,11 @@
-import { CheckIcon, HashtagIcon, XIcon } from "@heroicons/react/solid";
+import { CheckIcon, HashtagIcon } from "@heroicons/react/solid";
 import { Stack, Autocomplete, Text, Button, Box } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { useLoaderData, useLocation, useSubmit } from "@remix-run/react";
-import { useState, useEffect, useRef, useMemo } from "react";
-import { DBGuild } from "~/models/dbGuild.server";
-import { APIGuild } from "~/requests/apiGuild.server";
-import { APIGuildChannels } from "~/requests/apiGuildChannels.server";
+import { useLoaderData, useSubmit } from "@remix-run/react";
+import { useState, useEffect, useMemo } from "react";
+import type { DBGuild } from "~/models/dbGuild.server";
+import type { APIGuild } from "~/requests/apiGuild.server";
+import type { APIGuildChannels } from "~/requests/apiGuildChannels.server";
 import { RichText } from "../RTE";
 
 const filterChannels = (channels: APIGuildChannels) =>
@@ -37,7 +37,6 @@ export const UM = (props: { type: "WELCOME" | "LEAVE" }) => {
   );
   const [message, setMessage] = useState("");
   const [ready, setReady] = useState<boolean>(false);
-  const { pathname } = useLocation();
   const submit = useSubmit();
 
   const mentions = useMemo(
@@ -79,6 +78,7 @@ export const UM = (props: { type: "WELCOME" | "LEAVE" }) => {
         : dbGuild.um_leave_raw_msg
     );
     setReady(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const request = () => {

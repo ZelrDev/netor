@@ -1,29 +1,24 @@
 import { HashtagIcon } from "@heroicons/react/solid";
 import {
   Autocomplete,
-  Box,
   Button,
   Group,
   Modal,
   Paper,
   ScrollArea,
-  SimpleGrid,
   Stack,
-  Text,
 } from "@mantine/core";
 import { useModals } from "@mantine/modals";
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useSubmit,
-} from "@remix-run/react";
-import { EmbedVisualizer, parseContent, parseTitle } from "embed-visualizer";
-import { useEffect, useRef, useState } from "react";
-import { openError } from "~/hooks/openError";
-import { DBGuild, DBGuildEmbed, DBGuildEmbeds } from "~/models/dbGuild.server";
-import { APIGuild } from "~/requests/apiGuild.server";
-import { APIGuildChannels } from "~/requests/apiGuildChannels.server";
+import { useLoaderData, useSubmit } from "@remix-run/react";
+import { EmbedVisualizer } from "embed-visualizer";
+import { useEffect, useState } from "react";
+import type {
+  DBGuild,
+  DBGuildEmbed,
+  DBGuildEmbeds,
+} from "~/models/dbGuild.server";
+import type { APIGuild } from "~/requests/apiGuild.server";
+import type { APIGuildChannels } from "~/requests/apiGuildChannels.server";
 import { convertDBEmbedToDiscordEmbed } from "~/utils";
 import { ButtonsGroup } from "../ButtonsGroup";
 
@@ -40,13 +35,10 @@ const filterChannels = (channels: APIGuildChannels) =>
 export const EmbedList = (props: { embeds: DBGuildEmbeds }) => {
   const [containerWidth, setContainerWidth] = useState<number>(1);
   const modals = useModals();
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
   const [opened, setOpened] = useState(false);
   const [channelError, setChannelError] = useState<boolean>();
   const [currentEmbed, setCurrentEmbed] = useState<DBGuildEmbed>();
-  const { dbGuild, apiGuild, apiGuildChannels, dbGuildEmbeds } =
-    useLoaderData() as LoaderData;
+  const { apiGuildChannels } = useLoaderData() as LoaderData;
   const submit = useSubmit();
   const [channel, setChannel] = useState<{
     id: string;
@@ -60,6 +52,7 @@ export const EmbedList = (props: { embeds: DBGuildEmbeds }) => {
       if (el?.clientWidth) width = width + el.clientWidth;
     });
     setContainerWidth(width + props.embeds.length * 45);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const deleteEmbed = (embedId: number) => {

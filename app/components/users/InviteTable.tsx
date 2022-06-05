@@ -1,10 +1,4 @@
-import {
-  BanIcon,
-  ChatAlt2Icon,
-  ExclamationCircleIcon,
-  MinusIcon,
-  XIcon,
-} from "@heroicons/react/solid";
+import { XIcon } from "@heroicons/react/solid";
 import {
   Table,
   Box,
@@ -18,10 +12,10 @@ import {
 } from "@mantine/core";
 import { useParams, Link, useSubmit } from "@remix-run/react";
 import ReactTimeAgo from "react-time-ago";
-import { DBGuildMemberInvites } from "~/models/dbGuildMember.server";
-import { APIGuildMember } from "~/requests/apiGuildMember.server";
+import type { DBGuildMemberInvites } from "~/models/dbGuildMember.server";
+import type { APIGuildMember } from "~/requests/apiGuildMember.server";
 import { ThemeChip } from "../ThemeChip";
-import { APIUser } from "~/requests/apiUser";
+import type { APIUser } from "~/requests/apiUser";
 import { discordAvatar } from "~/utils";
 
 export const InviteTable = (props: {

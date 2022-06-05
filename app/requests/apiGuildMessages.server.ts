@@ -1,5 +1,5 @@
-import { APIMessage } from "types/APIMessage";
-import DiscordEmbed from "types/DiscordEmbed";
+import type { APIMessage } from "types/APIMessage";
+import type DiscordEmbed from "types/DiscordEmbed";
 
 export const sendMessageEmbed = async (
   id: string,

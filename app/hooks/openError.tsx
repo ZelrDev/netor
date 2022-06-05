@@ -1,5 +1,5 @@
-import { Code, Title, Text } from "@mantine/core";
-import { ModalsContextProps } from "@mantine/modals/lib/context";
+import { Title, Text } from "@mantine/core";
+import type { ModalsContextProps } from "@mantine/modals/lib/context";
 
 export const openError = (modals: ModalsContextProps, error: string) => {
   const formattedError = error

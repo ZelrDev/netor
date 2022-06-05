@@ -1,7 +1,7 @@
 import type { APIGuildMember } from "discord-api-types/v10";
-export type { APIGuildMember } from "discord-api-types/v10";
 import type { APIMessage } from "types/APIMessage";
 import type { APIBan } from "discord-api-types/v10";
+export type { APIGuildMember } from "discord-api-types/v10";
 
 export type APIGuildMemberBan = APIBan | null;
 

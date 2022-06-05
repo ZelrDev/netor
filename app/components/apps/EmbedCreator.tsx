@@ -1,29 +1,16 @@
 import {
   Accordion,
-  Box,
   Button,
   Checkbox,
   ColorInput,
-  Footer,
   Group,
   Stack,
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { useModals } from "@mantine/modals";
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useParams,
-  useSubmit,
-} from "@remix-run/react";
-import { EmbedVisualizer, parseContent, parseTitle } from "embed-visualizer";
+import { useSubmit } from "@remix-run/react";
+import { EmbedVisualizer } from "embed-visualizer";
 import { useEffect } from "react";
-import { openError } from "~/hooks/openError";
-import { DBGuild, DBGuildEmbeds } from "~/models/dbGuild.server";
-import { APIGuild } from "~/requests/apiGuild.server";
-import { APIGuildChannels } from "~/requests/apiGuildChannels.server";
 
 function validURL(str: string) {
   var pattern = new RegExp(
@@ -38,22 +25,8 @@ function validURL(str: string) {
   return !!pattern.test(str);
 }
 
-type LoaderData = {
-  dbGuild: DBGuild;
-  dbGuildEmbeds: DBGuildEmbeds;
-  apiGuild: APIGuild;
-  apiGuildChannels: APIGuildChannels;
-};
-
 export const EmbedCreator = () => {
-  const { dbGuild, apiGuild, apiGuildChannels, dbGuildEmbeds } =
-    useLoaderData() as LoaderData;
-
   const submit = useSubmit();
-  const { pathname } = useLocation();
-  const params = useParams();
-  const navigate = useNavigate();
-  const modals = useModals();
 
   const form = useForm({
     initialValues: {
@@ -100,6 +73,7 @@ export const EmbedCreator = () => {
 
   useEffect(() => {
     form.setFieldValue("fields", []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const embed = {

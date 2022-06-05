@@ -3,14 +3,11 @@ import {
   Title,
   Text,
   Container,
-  Button,
-  Overlay,
   createStyles,
   Group,
   Image,
   Stack,
   Box,
-  MediaQuery,
   useMantineTheme,
 } from "@mantine/core";
 import { Dots } from "~/components/Dots";
@@ -52,7 +49,7 @@ export function FlexFeatureImage(props: {
   backgroundColor?: string;
   reverse?: boolean;
 }) {
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
   const theme = useMantineTheme();
   const xs = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`, false);
 

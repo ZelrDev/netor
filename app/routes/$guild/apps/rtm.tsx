@@ -1,11 +1,6 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  useLoaderData,
-  useLocation,
-  useParams,
-  useSubmit,
-} from "@remix-run/react";
+import { useLoaderData, useParams, useSubmit } from "@remix-run/react";
 import {
   getDBGuild,
   toggleRTM,
@@ -18,18 +13,10 @@ import { getAPIGuild } from "~/requests/apiGuild.server";
 import { getAPIGuildChannels } from "~/requests/apiGuildChannels.server";
 import type { APIGuildChannels } from "~/requests/apiGuildChannels.server";
 import { getSession } from "~/sessions";
-import {
-  Alert,
-  Autocomplete,
-  Container,
-  Stack,
-  Switch,
-  Title,
-} from "@mantine/core";
+import { Alert, Autocomplete, Stack, Switch, Title } from "@mantine/core";
 import { ExclamationCircleIcon, HashtagIcon } from "@heroicons/react/solid";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { error } from "~/utils";
-import errors from "~/errors.json";
 import { DoubleNavbar } from "~/components/Navbar";
 
 type LoaderData = {
@@ -96,7 +83,6 @@ export default function Index() {
   );
   const submit = useSubmit();
   const [ready, setReady] = useState<boolean>(false);
-  const { pathname } = useLocation();
   const params = useParams();
 
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
@@ -117,6 +103,7 @@ export default function Index() {
     }
     if (dbGuild.rtm_enabled) setChecked(true);
     setReady(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -126,6 +113,7 @@ export default function Index() {
       formData.append("channel", selectedData?.id!.toString() ?? "");
       submit(formData, { method: "post" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedData, checked]);
 
   return (

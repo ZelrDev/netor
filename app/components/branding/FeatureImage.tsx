@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Title,
-  Text,
-  Container,
-  Button,
-  Overlay,
-  createStyles,
-  Group,
-  Image,
-} from "@mantine/core";
+import { Title, Text, Container, createStyles, Image } from "@mantine/core";
 import { Dots } from "~/components/Dots";
 
 const useStyles = createStyles((theme) => ({
@@ -46,7 +37,7 @@ export function FeatureImage(props: {
   backgroundColor?: string;
   _ref?: React.RefObject<HTMLDivElement>;
 }) {
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div

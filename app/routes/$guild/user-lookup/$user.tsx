@@ -6,10 +6,10 @@ import { getAPIGuild } from "~/requests/apiGuild.server";
 import type { DBGuild } from "~/models/dbGuild.server";
 import type { APIGuild } from "~/requests/apiGuild.server";
 import { getSession } from "~/sessions";
-import { HeaderSimple } from "~/components/Header";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
-import { Avatar, Container, Group, Stack, Text, Title } from "@mantine/core";
-import { APIUser, getAPIUser } from "~/requests/apiUser";
+import { Avatar, Group, Stack, Text, Title } from "@mantine/core";
+import type { APIUser } from "~/requests/apiUser";
+import { getAPIUser } from "~/requests/apiUser";
 
 import { discordAvatar, error } from "~/utils";
 import errors from "~/errors.json";

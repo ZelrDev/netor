@@ -1,24 +1,20 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useParams } from "@remix-run/react";
 import {
   createDBEmbed,
-  DBGuildEmbeds,
   getDBGuild,
   getDBGuildEmbeds,
   validateSessionURI,
 } from "~/models/dbGuild.server";
-import type { DBGuild } from "~/models/dbGuild.server";
+import type { DBGuild, DBGuildEmbeds } from "~/models/dbGuild.server";
 import type { APIGuild } from "~/requests/apiGuild.server";
 import { getAPIGuild } from "~/requests/apiGuild.server";
-import { getAPIGuildChannels } from "~/requests/apiGuildChannels.server";
-import type { APIGuildChannels } from "~/requests/apiGuildChannels.server";
 import { getSession } from "~/sessions";
-import { HeaderSimple } from "~/components/Header";
-import { Container, Title } from "@mantine/core";
+import { Title } from "@mantine/core";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { EmbedCreator } from "~/components/apps/EmbedCreator";
-import DiscordEmbed from "types/DiscordEmbed";
+import type DiscordEmbed from "types/DiscordEmbed";
 import { error } from "~/utils";
 import errors from "~/errors.json";
 import { DoubleNavbar } from "~/components/Navbar";

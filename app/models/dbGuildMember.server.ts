@@ -1,6 +1,6 @@
 import { prisma } from "~/db.server";
 import type { punishment, user_invite } from "@prisma/client";
-import { APIUser } from "discord-api-types/v10";
+import type { APIUser } from "discord-api-types/v10";
 import { getAPIUser } from "~/requests/apiUser";
 import { error } from "~/utils";
 import errors from "~/errors.json";

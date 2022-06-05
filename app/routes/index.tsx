@@ -1,8 +1,7 @@
 import { Hero } from "~/components/branding/Hero";
 import { FeatureImage } from "~/components/branding/FeatureImage";
 import { FlexFeatureImage } from "~/components/branding/FlexFeatureImage";
-import { Box, Stack, useMantineTheme } from "@mantine/core";
-import configCommand from "~/images/config_command.png";
+import { Box, useMantineTheme } from "@mantine/core";
 import punishmentHistory from "~/images/punishment_history.png";
 import configCommandList from "~/images/config_command_list.png";
 import viewUser from "~/images/view_user.png";

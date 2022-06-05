@@ -1,10 +1,7 @@
 import {
   Table,
-  Image,
-  Stack,
   Box,
   Text,
-  Button,
   Paper,
   Avatar,
   ScrollArea,
@@ -12,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useParams, Link } from "@remix-run/react";
 import ReactTimeAgo from "react-time-ago";
-import { APIGuild } from "~/requests/apiGuild.server";
+import type { APIGuild } from "~/requests/apiGuild.server";
 import type {
   APIGuildBannedMembers,
   APIGuildMembers,

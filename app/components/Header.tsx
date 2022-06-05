@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   createStyles,
   Header,
@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
 import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
-import { APIGuild } from "~/requests/apiGuild.server";
+import type { APIGuild } from "~/requests/apiGuild.server";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 
 const useStyles = createStyles((theme) => ({

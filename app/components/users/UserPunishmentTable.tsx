@@ -7,11 +7,8 @@ import {
 } from "@heroicons/react/solid";
 import {
   Table,
-  Image,
-  Stack,
   Box,
   Text,
-  Button,
   Paper,
   ThemeIcon,
   Group,
@@ -19,24 +16,13 @@ import {
   Avatar,
   ScrollArea,
   ActionIcon,
-  Center,
-  Chip,
 } from "@mantine/core";
-import {
-  useParams,
-  Link,
-  useLocation,
-  useNavigate,
-  useSubmit,
-} from "@remix-run/react";
+import { useParams, Link, useSubmit } from "@remix-run/react";
 import ReactTimeAgo from "react-time-ago";
-import { DBGuildMemberPunishments } from "~/models/dbGuildMember.server";
-import { openError } from "~/hooks/openError";
-import { useModals } from "@mantine/modals";
-import { APIGuildMember } from "~/requests/apiGuildMember.server";
+import type { DBGuildMemberPunishments } from "~/models/dbGuildMember.server";
+import type { APIGuildMember } from "~/requests/apiGuildMember.server";
 import { ThemeChip } from "../ThemeChip";
-import { APIUser } from "~/requests/apiUser";
-import { APIGuildMembers } from "~/requests/apiGuildMembers.server";
+import type { APIUser } from "~/requests/apiUser";
 import { discordAvatar } from "~/utils";
 
 export const UserPunishmentTable = (props: {
@@ -46,10 +32,7 @@ export const UserPunishmentTable = (props: {
   banned: boolean;
 }) => {
   const params = useParams();
-  const modals = useModals();
-  const { pathname } = useLocation();
   const navigateURL = (id: string) => `/${params.guild}/users/${id}`;
-  const navigate = useNavigate();
   const submit = useSubmit();
 
   const getTime = (

@@ -1,7 +1,7 @@
-import DiscordEmbed from "types/DiscordEmbed";
+import type DiscordEmbed from "types/DiscordEmbed";
 import { prisma } from "~/db.server";
 import crypto from "crypto";
-import { embed, embed_field } from "@prisma/client";
+import type { embed, embed_field } from "@prisma/client";
 import { error } from "~/utils";
 import errors from "~/errors.json";
 

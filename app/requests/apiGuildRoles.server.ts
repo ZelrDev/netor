@@ -1,5 +1,5 @@
 import type { APIRole } from "discord-api-types/v10";
-import { APIMessage } from "types/APIMessage";
+import type { APIMessage } from "types/APIMessage";
 
 export type APIGuildRoles = APIRole[];
 

@@ -1,6 +1,5 @@
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
-TimeAgo.addDefaultLocale(en);
 import { RemixBrowser } from "@remix-run/react";
 import { useState } from "react";
 import { hydrate } from "react-dom";
@@ -8,6 +7,7 @@ import { hydrate } from "react-dom";
 import { getCache } from "@mantine/core";
 import { CacheProvider } from "@emotion/react";
 import { ClientStyleContext } from "./context";
+TimeAgo.addDefaultLocale(en);
 
 interface ClientCacheProviderProps {
   children: React.ReactNode;

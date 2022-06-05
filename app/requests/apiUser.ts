@@ -1,5 +1,5 @@
-import { APIUser } from "discord-api-types/v10";
-import { APIMessage } from "types/APIMessage";
+import type { APIUser } from "discord-api-types/v10";
+import type { APIMessage } from "types/APIMessage";
 
 export type { APIUser } from "discord-api-types/v10";
 

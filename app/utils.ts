@@ -1,10 +1,10 @@
 import { json } from "@remix-run/node";
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
-import DiscordEmbed from "types/DiscordEmbed";
-import { DBGuildEmbed, DBGuildEmbedField } from "./models/dbGuild.server";
+import type DiscordEmbed from "types/DiscordEmbed";
+import type { DBGuildEmbed } from "./models/dbGuild.server";
 import he from "he";
-import { Stream } from "stream";
+import type { Stream } from "stream";
 
 const DEFAULT_REDIRECT = "/";
 

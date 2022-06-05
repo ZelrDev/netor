@@ -1,32 +1,23 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { Link, useLoaderData, useParams } from "@remix-run/react";
 import {
-  Link,
-  useLoaderData,
-  useLocation,
-  useParams,
-  useSubmit,
-} from "@remix-run/react";
-import {
-  DBGuildEmbeds,
   deleteDBEmbed,
   getDBGuild,
   getDBGuildEmbeds,
   validateSessionURI,
 } from "~/models/dbGuild.server";
-import type { DBGuild } from "~/models/dbGuild.server";
-import { useEffect, useState } from "react";
+import type { DBGuild, DBGuildEmbeds } from "~/models/dbGuild.server";
 import type { APIGuild } from "~/requests/apiGuild.server";
 import { getAPIGuild } from "~/requests/apiGuild.server";
 import { getAPIGuildChannels } from "~/requests/apiGuildChannels.server";
 import type { APIGuildChannels } from "~/requests/apiGuildChannels.server";
 import { getSession } from "~/sessions";
-import { HeaderSimple } from "~/components/Header";
-import { Alert, Button, Container, Title } from "@mantine/core";
+import { Alert, Button, Title } from "@mantine/core";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { EmbedList } from "~/components/apps/EmbedList";
 import { sendMessageEmbed } from "~/requests/apiGuildMessages.server";
-import DiscordEmbed from "types/DiscordEmbed";
+import type DiscordEmbed from "types/DiscordEmbed";
 import { error } from "~/utils";
 import errors from "~/errors.json";
 import { DoubleNavbar } from "~/components/Navbar";
@@ -102,25 +93,10 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function Index() {
-  const { dbGuild, dbGuildEmbeds } = useLoaderData() as LoaderData;
-  const [checked, setChecked] = useState<boolean>(false);
-  const [ready, setReady] = useState<boolean>(false);
-  const submit = useSubmit();
+  const { dbGuildEmbeds } = useLoaderData() as LoaderData;
   const params = useParams();
 
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
-
-  useEffect(() => {
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (ready) {
-      let formData = new FormData();
-      formData.append("enabled", checked!.toString());
-      submit(formData, { method: "post" });
-    }
-  }, [checked]);
 
   return (
     <DoubleNavbar>

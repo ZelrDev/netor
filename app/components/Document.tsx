@@ -4,7 +4,6 @@ import {
   Meta,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from "@remix-run/react";
 import type { ColorScheme } from "@mantine/core";
 import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
@@ -28,6 +27,7 @@ export function MantineTheme({ children }: { children: React.ReactNode }) {
   );
   useEffect(() => {
     if (colorScheme == null) setColorScheme("system");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScheme]);
 
   const toggleColorScheme = (value?: ColorScheme) =>
@@ -59,7 +59,6 @@ export function MantineTheme({ children }: { children: React.ReactNode }) {
 
 export function Document({ children }: DocumentProps) {
   const clientStyleData = useContext(ClientStyleContext);
-  const data = useLoaderData();
 
   useEffect(() => {
     const cache = getCache({ key: "mantine" });
@@ -70,6 +69,7 @@ export function Document({ children }: DocumentProps) {
       (cache.sheet as any)._insertTag(tag);
     });
     clientStyleData?.reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -6,7 +6,6 @@ import {
 import {
   Box,
   Button,
-  Group,
   Input,
   Modal,
   Paper,
@@ -15,27 +14,15 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useMantineTheme,
 } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
 import { useForm } from "@mantine/hooks";
-import { useModals } from "@mantine/modals";
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useParams,
-  useSubmit,
-} from "@remix-run/react";
+import { useLoaderData, useSubmit } from "@remix-run/react";
 import { useState } from "react";
-import { openError } from "~/hooks/openError";
-import { DBGuild } from "~/models/dbGuild.server";
-import {
-  DBGuildMemberPunishments,
-  DBGuildMemberPunishmentsRAW,
-} from "~/models/dbGuildMember.server";
-import { APIGuild } from "~/requests/apiGuild.server";
-import { APIGuildMember } from "~/requests/apiGuildMember.server";
+import type { DBGuild } from "~/models/dbGuild.server";
+import type { DBGuildMemberPunishmentsRAW } from "~/models/dbGuildMember.server";
+import type { APIGuild } from "~/requests/apiGuild.server";
+import type { APIGuildMember } from "~/requests/apiGuildMember.server";
 import { StyledTabs } from "../Tabs";
 
 function combineDateWithTime(d: Date, t: Date) {
@@ -60,16 +47,11 @@ type LoaderData = {
 export const PunishmentButtons = () => {
   const { apiGuildMember, dbGuildMemberPunishmentsRAW } =
     useLoaderData() as LoaderData;
-  const modals = useModals();
-  const navigate = useNavigate();
-  const params = useParams();
-  const { pathname } = useLocation();
   const [activeTab, setActiveTab] = useState(0);
   const [opened, setOpened] = useState(false);
   const [punishment, setPunishment] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const theme = useMantineTheme();
   const form = useForm({
     initialValues: {
       time: new Date(),

@@ -7,13 +7,6 @@ import {
   Code,
   createStyles,
 } from "@mantine/core";
-import {
-  Meta,
-  Links,
-  Scripts,
-  LiveReload,
-  ScrollRestoration,
-} from "@remix-run/react";
 import { Document } from "./Document";
 
 const useStyles = createStyles((theme) => ({
@@ -21,7 +14,6 @@ const useStyles = createStyles((theme) => ({
     paddingTop: 80,
     paddingBottom: 80,
   },
-
   label: {
     textAlign: "center",
     fontWeight: 900,

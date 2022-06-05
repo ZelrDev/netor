@@ -7,24 +7,26 @@ import type { DBGuild } from "~/models/dbGuild.server";
 import type { APIGuild } from "~/requests/apiGuild.server";
 import { getSession } from "~/sessions";
 import {
-  APIGuildMemberBan,
   getAPIGuildMember,
   getAPIGuildMemberBan,
   removeBanAPIGuildMember,
   removeTimeoutAPIGuildMember,
 } from "~/requests/apiGuildMember.server";
-import type { APIGuildMember } from "~/requests/apiGuildMember.server";
-import { HeaderSimple } from "~/components/Header";
+import type {
+  APIGuildMember,
+  APIGuildMemberBan,
+} from "~/requests/apiGuildMember.server";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
-import { Container, Title } from "@mantine/core";
+import { Title } from "@mantine/core";
+import type { DBGuildMemberPunishments } from "~/models/dbGuildMember.server";
 import {
-  DBGuildMemberPunishments,
   getDBGuildMemberPunishments,
   removeDBGuildMemberPunishment,
 } from "~/models/dbGuildMember.server";
 import { UserPunishmentTable } from "~/components/users/UserPunishmentTable";
-import { getAPIUser, APIUser } from "~/requests/apiUser";
-import { APIMessage } from "types/APIMessage";
+import type { APIUser } from "~/requests/apiUser";
+import { getAPIUser } from "~/requests/apiUser";
+import type { APIMessage } from "types/APIMessage";
 import { useEffect, useState } from "react";
 import { error } from "~/utils";
 import errors from "~/errors.json";
@@ -131,6 +133,7 @@ export default function Index() {
     } else {
       setBanned(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (apiUser === undefined) {

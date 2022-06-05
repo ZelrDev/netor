@@ -1,16 +1,11 @@
 import {
   CheckIcon,
   HashtagIcon,
-  XCircleIcon,
   XIcon,
 } from "@heroicons/react/solid";
 import {
   Stack,
   Autocomplete,
-  TextInput,
-  Textarea,
-  Chip,
-  Chips,
   Text,
   Button,
   Box,

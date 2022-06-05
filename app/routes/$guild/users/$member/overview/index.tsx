@@ -79,55 +79,56 @@ export const action: ActionFunction = async ({ request, params }) => {
   const validate = await validateSessionURI(params.guild, uri, true);
   error(validate, errors.VALIDATE_DB_GUILD_FAIL, 401, true);
 
-  if (data.get("ban") === "true") {
-    const id = data.get("user_id")?.toString();
-    const reason = data.get("reason")?.toString();
-    error(id, "id is required", 400, true);
+  // if (data.get("ban") === "true") {
+  //   const id = data.get("user_id")?.toString();
+  //   const reason = data.get("reason")?.toString();
+  //   error(id, "id is required", 400, true);
 
-    const result = await banAPIGuildMember(
-      params.guild,
-      uri,
-      id,
-      reason ?? "No reason specified"
-    );
-    error(result.result, result.message, 500, true);
-  }
-  if (data.get("kick") === "true") {
-    const id = data.get("user_id")?.toString();
-    const reason = data.get("reason")?.toString();
-    error(id, "id is required", 400, true);
+  //   const result = await banAPIGuildMember(
+  //     params.guild,
+  //     uri,
+  //     id,
+  //     reason ?? "No reason specified"
+  //   );
+  //   error(result.result, result.message, 500, true);
+  // }
+  // if (data.get("kick") === "true") {
+  //   const id = data.get("user_id")?.toString();
+  //   const reason = data.get("reason")?.toString();
+  //   error(id, "id is required", 400, true);
 
-    const result = await kickAPIGuildMember(
-      params.guild,
-      uri,
-      id,
-      reason ?? "No reason specified"
-    );
-    error(result.result, result.message, 500, true);
-  }
-  if (data.get("timeout") === "true") {
-    const id = data.get("user_id")?.toString();
-    const reason = data.get("reason")?.toString();
-    const time = data.get("time")?.toString();
-    error(id, "id is required", 400, true);
-    error(time, "time is required", 400, true);
+  //   const result = await kickAPIGuildMember(
+  //     params.guild,
+  //     uri,
+  //     id,
+  //     reason ?? "No reason specified"
+  //   );
+  //   error(result.result, result.message, 500, true);
+  // }
+  // if (data.get("timeout") === "true") {
+  //   const id = data.get("user_id")?.toString();
+  //   const reason = data.get("reason")?.toString();
+  //   const time = data.get("time")?.toString();
+  //   error(id, "id is required", 400, true);
+  //   error(time, "time is required", 400, true);
 
-    const result = await timeoutAPIGuildMember(
-      params.guild,
-      uri,
-      id,
-      reason ?? "No reason specified",
-      time
-    );
-    error(result.result, result.message, 500, true);
-  }
-  if (data.get("remove_timeout") === "true") {
-    const id = data.get("user_id")?.toString();
-    error(id, "id is required", 400, true);
+  //   const result = await timeoutAPIGuildMember(
+  //     params.guild,
+  //     uri,
+  //     id,
+  //     reason ?? "No reason specified",
+  //     time
+  //   );
+  //   error(result.result, result.message, 500, true);
+  // }
+  // if (data.get("remove_timeout") === "true") {
+  //   const id = data.get("user_id")?.toString();
+  //   error(id, "id is required", 400, true);
 
-    const result = await removeTimeoutAPIGuildMember(params.guild, uri, id);
-    error(result.result, result.message, 500, true);
-  }
+  //   const result = await removeTimeoutAPIGuildMember(params.guild, uri, id);
+  //   error(result.result, result.message, 500, true);
+  // }
+  error(false, "lol imagine", 400);
   return "OK";
 };
 

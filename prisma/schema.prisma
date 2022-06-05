@@ -10,6 +10,8 @@ generator client {
 model guild {
   id                    String        @unique
   uri                   uri[]
+  invites               user_invite[]
+  punishments           punishment[]
   session_uri           session_uri[]
   rtm_enabled           Boolean       @default(false)
   rtm_channel_id        String        @default("")
@@ -37,10 +39,22 @@ model uri {
   user_id  String
 }
 
+model user_invite {
+  id           String   @unique
+  guild_id     String
+  guild        guild    @relation(references: [id], fields: [guild_id], onUpdate: Cascade, onDelete: Cascade)
+  inviter_id   String
+  joined_id    String
+  invite_id    String
+  valid        Boolean
+  date_created DateTime
+}
+
 model punishment {
   id          String         @unique
   user_id     String
   guild_id    String
+  guild       guild          @relation(references: [id], fields: [guild_id], onUpdate: Cascade, onDelete: Cascade)
   type        PunishmentType
   date        DateTime
   punisher_id String

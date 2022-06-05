@@ -11,7 +11,13 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { ChatAlt2Icon, XIcon } from "@heroicons/react/solid";
-import { useLocation, useNavigate } from "@remix-run/react";
+import {
+  useActionData,
+  useLocation,
+  useNavigate,
+  useSubmit,
+  useTransition,
+} from "@remix-run/react";
 import { openError } from "~/hooks/openError";
 import { useModals } from "@mantine/modals";
 
@@ -19,25 +25,29 @@ export const CurrentTimeout = (props: { member: APIGuildMember }) => {
   const timedOut = props.member.communication_disabled_until !== null;
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const submit = useSubmit();
   const modals = useModals();
-  const theme = useMantineTheme();
+  const data = useSubmit();
+  const actionData = useActionData();
+
+  console.log(actionData);
 
   const removeTimeout = () => {
     let formData = new FormData();
     formData.append("user_id", props.member.user!.id);
     formData.append("remove_timeout", "true");
-
-    fetch(pathname + "?index", {
-      body: formData,
-      method: "post",
-    }).then(async (res) => {
-      if (!res.ok) {
-        const text = await res.text();
-        openError(modals, text);
-      } else {
-        navigate(".", { replace: true });
-      }
-    });
+    submit(formData, { replace: false, method: "post" });
+    // fetch(pathname + "?index", {
+    //   body: formData,
+    //   method: "post",
+    // }).then(async (res) => {
+    //   if (!res.ok) {
+    //     const text = await res.text();
+    //     openError(modals, text);
+    //   } else {
+    //     navigate(".", { replace: true });
+    //   }
+    // });
   };
 
   const getCountdown = (

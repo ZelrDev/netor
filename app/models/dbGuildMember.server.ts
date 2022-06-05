@@ -141,9 +141,8 @@ export const getDBGuildMemberPunishments = async (
     );
 
     return newPunishments;
-  } catch (e) {
-    console.log(e);
-    error(false, e, 500, rawErrorOutput);
+  } catch {
+    error(false, errors.GET_DB_PUNISHMENTS_FAIL, 500, rawErrorOutput);
   }
 };
 
@@ -186,7 +185,8 @@ export const getDBGuildMemberInvites = async (
     );
 
     return newInvites;
-  } catch {
-    error(false, errors.GET_DB_INVITES_FAIL, 500, rawErrorOutput);
+  } catch (e) {
+    console.log(e);
+    error(false, e, 500, rawErrorOutput);
   }
 };

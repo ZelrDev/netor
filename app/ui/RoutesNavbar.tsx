@@ -32,7 +32,7 @@ const useStyles = createStyles((theme) => ({
     },
     transitionProperty: "all",
     transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-    transitionDuration: "100ms",
+    transitionDuration: "200ms",
   },
   linkActive: {
     color:

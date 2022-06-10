@@ -1,64 +1,53 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { getDBGuild } from "~/models/dbGuild.server";
-import { getAPIGuild } from "~/requests/apiGuild.server";
-import type { DBGuild } from "~/models/dbGuild.server";
-import type { APIGuild } from "~/requests/apiGuild.server";
-import { getSession } from "~/sessions";
-import { UserTable } from "~/components/users/UserTable";
+import { getSession } from "~/modules/auth/sessions.server";
+import { UserTable } from "~/modules/guild/users/UserListTable";
 import {
   getAPIGuildBannedMembers,
   getAPIGuildMembers,
-} from "~/requests/apiGuildMembers.server";
+} from "~/api-requests/apiGuildMembers.server";
 import type {
   APIGuildMembers,
   APIGuildBannedMembers,
-} from "~/requests/apiGuildMembers.server";
-import type { APIGuildRoles } from "~/requests/apiGuildRoles.server";
-import { getAPIGuildRoles } from "~/requests/apiGuildRoles.server";
+} from "~/api-requests/apiGuildMembers.server";
+import type { APIGuildRoles } from "~/api-requests/apiGuildRoles.server";
+import { getAPIGuildRoles } from "~/api-requests/apiGuildRoles.server";
 import { Alert, Title } from "@mantine/core";
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import { error } from "~/utils";
 import errors from "~/errors.json";
-import { DoubleNavbar } from "~/components/Navbar";
+import { useData } from "~/shared-hooks/use-data";
+import type { LoaderData } from "~/routes/$guild";
+import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import i18n from "~/i18next.server";
 
-type LoaderData = {
-  dbGuild: DBGuild;
-  apiGuild: APIGuild;
+type RouteLoaderData = {
   apiGuildMembers: APIGuildMembers;
   apiGuildBannedMembers: APIGuildBannedMembers;
   apiGuildRoles: APIGuildRoles;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+  let t = await i18n.getFixedT(request);
+
   const session = await getSession(request.headers.get("Cookie"));
   const uri = session.get("uuid");
 
   error(params.guild, `params.guild is required`, 400);
   error(uri, `session is required`, 400);
 
-  const [
-    dbGuild,
-    apiGuild,
-    apiGuildRoles,
-    apiGuildBannedMembers,
-    apiGuildMembers,
-  ] = await Promise.all([
-    getDBGuild(params.guild, uri),
-    getAPIGuild(params.guild, uri),
-    getAPIGuildRoles(params.guild, uri),
-    getAPIGuildBannedMembers(params.guild, uri),
-    getAPIGuildMembers(params.guild, uri),
-  ]);
+  const [apiGuildRoles, apiGuildBannedMembers, apiGuildMembers] =
+    await Promise.all([
+      getAPIGuildRoles(params.guild, uri),
+      getAPIGuildBannedMembers(params.guild, uri),
+      getAPIGuildMembers(params.guild, uri),
+    ]);
 
-  error(apiGuildRoles.completed, errors.GET_API_GUILD_FAIL, 401);
-  error(apiGuildBannedMembers.completed, errors.GET_API_GUILD_FAIL, 401);
-  error(apiGuildMembers.completed, errors.GET_API_GUILD_FAIL, 401);
+  error(apiGuildRoles.completed, t("errors.getAPIGuildFail"), 401);
+  error(apiGuildBannedMembers.completed, t("errors.getAPIGuildFail"), 401);
+  error(apiGuildMembers.completed, t("errors.getAPIGuildFail"), 401);
 
-  return json<LoaderData>({
-    dbGuild,
-    apiGuild: apiGuild.result!,
+  return json<RouteLoaderData>({
     apiGuildMembers: apiGuildMembers.result!,
     apiGuildBannedMembers: apiGuildBannedMembers.result!,
     apiGuildRoles: apiGuildRoles.result!,
@@ -66,13 +55,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 export default function Index() {
+  const { t } = useTypeSafeTranslation();
   const { apiGuildMembers, apiGuildRoles, apiGuild, apiGuildBannedMembers } =
-    useLoaderData() as LoaderData;
+    useData() as LoaderData<RouteLoaderData>;
 
   return (
-    <DoubleNavbar>
+    <>
       <Title pb="md" order={1}>
-        Users
+        {t("links.users")}
       </Title>
       <Alert
         icon={<ExclamationCircleIcon width={16} />}
@@ -80,7 +70,8 @@ export default function Index() {
         radius="xs"
         mb="md"
       >
-        Due to caching it may take up to 1 minute to update this list
+        TODO: add i18n Due to caching it may take up to 1 minute to update this
+        list
       </Alert>
       <Alert
         icon={<ExclamationCircleIcon width={16} />}
@@ -88,8 +79,8 @@ export default function Index() {
         radius="xs"
         mb="md"
       >
-        Results are limited to 1000 due to Discord. To find a user right click
-        them in Discord and select "Apps {">"} View User".
+        TODO: add i18n Results are limited to 1000 due to Discord. To find a
+        user right click them in Discord and select "Apps {">"} View User".
       </Alert>
       <UserTable
         guild={apiGuild}
@@ -97,6 +88,6 @@ export default function Index() {
         users={apiGuildMembers}
         roles={apiGuildRoles}
       />
-    </DoubleNavbar>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { deleteSessionURI } from "~/models/dbGuild.server";
-import { getSession, destroySession } from "~/sessions";
+import { getSession, destroySession } from "~/modules/auth/sessions.server";
 import { error, safeRedirect } from "~/utils";
 
 export const loader: LoaderFunction = async ({ request, params }) => {

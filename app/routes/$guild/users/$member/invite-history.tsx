@@ -1,37 +1,28 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
-import { getDBGuild, validateSessionURI } from "~/models/dbGuild.server";
-import { getAPIGuild } from "~/requests/apiGuild.server";
-import type { DBGuild } from "~/models/dbGuild.server";
-import type { APIGuild } from "~/requests/apiGuild.server";
-import { getSession } from "~/sessions";
-import { getAPIGuildMember } from "~/requests/apiGuildMember.server";
-import type { APIGuildMember } from "~/requests/apiGuildMember.server";
-import { Breadcrumbs } from "~/components/Breadcrumbs";
-import { Title } from "@mantine/core";
+import { useParams } from "@remix-run/react";
+import { getSession } from "~/modules/auth/sessions.server";
+import { Breadcrumbs } from "~/ui/Breadcrumbs";
+import { ActionIcon, Title, Tooltip } from "@mantine/core";
 import type { DBGuildMemberInvites } from "~/models/dbGuildMember.server";
-import {
-  getDBGuildMemberInvites,
-  removeDBGuildMemberInvite,
-} from "~/models/dbGuildMember.server";
-import type { APIUser } from "~/requests/apiUser";
-import { getAPIUser } from "~/requests/apiUser";
-import type { APIMessage } from "types/APIMessage";
+import { getDBGuildMemberInvites } from "~/models/dbGuildMember.server";
 import { error } from "~/utils";
-import errors from "~/errors.json";
-import { DoubleNavbar } from "~/components/Navbar";
-import { InviteTable } from "~/components/users/InviteTable";
+import { InviteTable } from "~/modules/guild/user/UserInviteTable";
+import { XIcon } from "@heroicons/react/solid";
+import { useManageMember } from "~/modules/guild/user/use-member";
+import { useData } from "~/shared-hooks/use-data";
+import type { LoaderData } from "../$member";
+import { useGenericDiscordUser } from "~/shared-hooks/use-generic-discord-user";
+import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import i18n from "~/i18next.server";
 
-type LoaderData = {
-  dbGuild: DBGuild;
-  apiGuild: APIGuild;
-  apiUser: APIUser | undefined;
-  apiGuildMember: APIGuildMember | undefined;
+type RouteLoaderData = {
   dbGuildMemberInvites: DBGuildMemberInvites;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
+  let t = await i18n.getFixedT(request);
+
   const session = await getSession(request.headers.get("Cookie"));
   const uri = session.get("uuid");
 
@@ -39,65 +30,23 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   error(uri, `session is required`, 400);
   error(params.member, `params.member is required`, 400);
 
-  const [dbGuild, apiGuild, apiGuildMember, dbGuildMemberInvites] =
-    await Promise.all([
-      getDBGuild(params.guild, uri),
-      getAPIGuild(params.guild, uri),
-      getAPIGuildMember(params.guild, uri, params.member),
-      getDBGuildMemberInvites(params.guild, params.member, uri),
-    ]);
+  const [dbGuildMemberInvites] = await Promise.all([
+    getDBGuildMemberInvites(params.guild, params.member, uri),
+  ]);
 
-  error(apiGuild.completed, errors.GET_API_GUILD_FAIL, 401);
-
-  let apiUser: APIMessage<APIUser> | undefined = undefined;
-
-  if (!apiGuildMember.completed) {
-    apiUser = await getAPIUser(params.guild, params.member, uri);
-    error(apiUser.completed, errors.GET_API_USER_FAIL, 404);
-  }
-
-  return json<LoaderData>({
-    dbGuild,
+  return json<RouteLoaderData>({
     dbGuildMemberInvites,
-    apiGuild: apiGuild.result!,
-    apiUser: apiUser?.result,
-    apiGuildMember: apiGuildMember.result,
   });
 };
 
-export const action: ActionFunction = async ({ request, params }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const uri = session.get("uuid");
-
-  error(params.guild, `params.guild is required`, 400, true);
-  error(uri, `session is required`, 400, true);
-
-  const data = await request.formData();
-
-  const validate = await validateSessionURI(params.guild, uri, true);
-  error(validate, errors.VALIDATE_DB_GUILD_FAIL, 401, true);
-
-  if (data.get("remove_invite") === "true") {
-    const id = data.get("invite_id")?.toString();
-
-    error(id, "invite_id is required", 400, true);
-
-    await removeDBGuildMemberInvite(id, true);
-  }
-
-  return "OK";
-};
-
 export default function Index() {
-  let { apiUser, apiGuildMember, dbGuildMemberInvites } =
-    useLoaderData() as LoaderData;
+  let { apiUser, apiGuildMember, dbGuildMemberInvites, apiGuild } =
+    useData() as LoaderData<RouteLoaderData>;
+  apiUser = useGenericDiscordUser(apiUser ?? apiGuildMember)!;
+  const { t } = useTypeSafeTranslation();
 
-  if (apiUser === undefined) {
-    apiUser = apiGuildMember!.user!;
-  }
-
+  const { removeInvite } = useManageMember(apiGuild, apiUser);
   const params = useParams();
-
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
   const navigateUserURL = (id: string) => `/${params.guild}/users/${id}`;
 
@@ -107,29 +56,29 @@ export default function Index() {
   );
 
   return (
-    <DoubleNavbar>
-      <Breadcrumbs
-        items={[
-          {
-            title: "Users",
-            href: navigateURL("users"),
-          },
-          {
-            title: apiUser!.username,
-            href: navigateUserURL(params.member!),
-          },
-          {
-            title: "Invite History",
-            href: navigateUserURL(params.member! + "/invite-history"),
-          },
-        ]}
-      />
-      <Title order={1}>Invite History</Title>
+    <>
       <InviteTable
+        actions={({ invite }) => (
+          <Tooltip
+            transition="pop"
+            transitionDuration={300}
+            transitionTimingFunction="ease"
+          label={t("pages.inviteHistory.actionRemove")}
+          >
+            <ActionIcon
+              onClick={() => removeInvite(invite.id)}
+              variant="light"
+              color="red"
+              size="sm"
+            >
+              <XIcon />
+            </ActionIcon>
+          </Tooltip>
+        )}
         invites={invitesSorted}
         user={apiUser}
         member={apiGuildMember}
       />
-    </DoubleNavbar>
+    </>
   );
 }

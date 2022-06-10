@@ -1,29 +1,19 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useParams } from "@remix-run/react";
-import {
-  createDBEmbed,
-  getDBGuild,
-  getDBGuildEmbeds,
-  validateSessionURI,
-} from "~/models/dbGuild.server";
-import type { DBGuild, DBGuildEmbeds } from "~/models/dbGuild.server";
-import type { APIGuild } from "~/requests/apiGuild.server";
-import { getAPIGuild } from "~/requests/apiGuild.server";
-import { getSession } from "~/sessions";
 import { Title } from "@mantine/core";
-import { Breadcrumbs } from "~/components/Breadcrumbs";
-import { EmbedCreator } from "~/components/apps/EmbedCreator";
-import type DiscordEmbed from "types/DiscordEmbed";
+import { useLoaderData, useOutletContext, useParams } from "@remix-run/react";
+import { Breadcrumbs } from "~/ui/Breadcrumbs";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { DBGuildEmbeds } from "~/models/dbGuild.server";
+import { getDBGuildEmbeds } from "~/models/dbGuild.server";
+import { getSession } from "~/modules/auth/sessions.server";
 import { error } from "~/utils";
-import errors from "~/errors.json";
-import { DoubleNavbar } from "~/components/Navbar";
-import { redirect } from "@remix-run/server-runtime";
+import { EmbedCreator } from "~/modules/guild/embed/EmbedCreator";
+import type { LoaderData } from "../../apps";
+import { useData } from "~/shared-hooks/use-data";
+import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 
-type LoaderData = {
-  dbGuild: DBGuild;
+type RouteLoaderData = {
   dbGuildEmbeds: DBGuildEmbeds;
-  apiGuild: APIGuild;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -33,62 +23,37 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   error(params.guild, `params.guild is required`, 400);
   error(uri, `session is required`, 400);
 
-  const [dbGuild, dbGuildEmbeds, apiGuild] = await Promise.all([
-    getDBGuild(params.guild, uri),
+  const [dbGuildEmbeds] = await Promise.all([
     getDBGuildEmbeds(params.guild, uri),
-    getAPIGuild(params.guild, uri),
   ]);
 
-  error(apiGuild.completed, errors.GET_API_GUILD_FAIL, 401);
-
-  return json<LoaderData>({
-    apiGuild: apiGuild.result!,
-    dbGuild,
+  return json<RouteLoaderData>({
     dbGuildEmbeds,
   });
 };
 
-export const action: ActionFunction = async ({ request, params }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const uri = session.get("uuid");
-
-  error(params.guild, `params.guild is required`, 400, true);
-  error(uri, `session is required`, 400, true);
-  const data = await request.formData();
-
-  const valid = await validateSessionURI(params.guild, uri, true);
-  error(valid, errors.VALIDATE_DB_GUILD_FAIL, 401, true);
-
-  if (data.get("embed")) {
-    const embed: DiscordEmbed = JSON.parse(data.get("embed")!.toString());
-    await createDBEmbed(params.guild, embed, true);
-  }
-  return redirect(`/${params.guild}/apps/embed-generator`);
-};
-
 export default function Index() {
   const params = useParams();
+  const data = useData() as LoaderData<RouteLoaderData>;
   const navigateURL = (path: string) => `/${params.guild}/${path}`;
+  const { t } = useTypeSafeTranslation();
 
   return (
-    <DoubleNavbar>
+    <>
       <Breadcrumbs
         items={[
           {
-            title: "Apps",
-          },
-          {
-            title: "Embed Generator",
+            title: t("modules.embedGenerator.name"),
             href: navigateURL("apps/embed-generator"),
           },
           {
-            title: "Create",
-            href: navigateURL("apps/embed-generator"),
+            title: t("modules.embedGenerator.createTemplate"),
+            href: navigateURL("apps/embed-generator/create"),
           },
         ]}
       />
-      <Title order={1}>Create Embed</Title>
-      <EmbedCreator />
-    </DoubleNavbar>
+      <Title order={2}>{t("modules.embedGenerator.createTemplate")}</Title>
+      <EmbedCreator {...data} />
+    </>
   );
 }

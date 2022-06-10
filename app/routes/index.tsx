@@ -1,10 +1,10 @@
-import { Hero } from "~/components/branding/Hero";
-import { FeatureImage } from "~/components/branding/FeatureImage";
-import { FlexFeatureImage } from "~/components/branding/FlexFeatureImage";
+import { Hero } from "~/ui/promo/Hero";
+import { FeatureImage } from "~/ui/promo/FeatureImage";
+import { FlexFeatureImage } from "~/ui/promo/FlexFeatureImage";
 import { Box, useMantineTheme } from "@mantine/core";
-import punishmentHistory from "~/images/punishment_history.png";
-import configCommandList from "~/images/config_command_list.png";
-import viewUser from "~/images/view_user.png";
+import punishmentHistory from "~/media/images/punishment_history.png";
+import configCommandList from "~/media/images/config_command_list.png";
+import viewUser from "~/media/images/view_user.png";
 import { useRef } from "react";
 
 export default function Index() {

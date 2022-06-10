@@ -6,7 +6,3 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     "/" + params.guild! + "/users/" + params.member + "/overview"
   );
 };
-
-export default function Index() {
-  return <></>;
-}

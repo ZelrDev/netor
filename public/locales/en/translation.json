@@ -1,0 +1,233 @@
+{
+  "_comment": "if you change this file, do: yarn i18",
+  "common": {
+    "send": "Send",
+    "remove": "Remove",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "enabled": "Enabled",
+    "value": "Value",
+    "create": "Create",
+    "text": "Text",
+    "url": "URL",
+    "user": "User",
+    "success": "Success",
+    "goBack": "Go back"
+  },
+  "alert": {
+    "savedData": "Saved your data"
+  },
+  "placeholders": {
+    "pickDate": "Pick date",
+    "noSpecifiedChannel": "No specified channel"
+  },
+  "errors": {
+    "embedCreator": {
+      "content": "Either title or description required",
+      "validURL": "Must be a valid URL"
+    },
+    "notFound": "Not found",
+    "unknown": "Something went wrong",
+    "bannedUser": "This user is banned, please select one of the top categories",
+    "getAPIGuildFail": "We could not find a server matching the URI given. Try regenerating the URL.",
+    "getAPIGuildRolesFail": "Failed to get server roles.",
+    "validateDBGuildFail": "Sorry, we can not authenticate you with this server. Try regenerating a link.",
+    "deleteURIFail": "Failed to delete URI.",
+    "deleteEmbedFail": "Failed to delete embed.",
+    "createEmbedDBFail": "Failed to create embed.",
+    "createEmbedQueryFail": "Failed to query database for embed fields.",
+    "createSessionURIQueryFail": "Failed to find URI.",
+    "createSessionURIDBFail": "Failed to create session URI.",
+    "validateSessionURIFail": "Failed to validate session URI.",
+    "getGuildEmbedsFail": "Failed to query database for embeds.",
+    "noGuildDB": "Could not find guild in database.",
+    "failGuildDB": "Failed to query database for server.",
+    "toggleDBUMFail": "Failed to toggle user messages.",
+    "toggleDBRRFail": "Failed to toggle reaction roles.",
+    "updateDBUMChannelFail": "Failed to update the user message channel.",
+    "updateDBUMMSGFail": "Failed to update the user message.",
+    "toggleDBRTMFail": "Failed to toggle report to moderators.",
+    "updateDBRTMChannelFail": "Failed to update the report to moderators channel.",
+    "getAPIUserFail": "Can't find that user or you are not authorized.",
+    "unknownDBError": "The database has encounted an unknown error.",
+    "getDBPunishmentsFail": "Failed to get punishments.",
+    "getDBInvitesFail": "Failed to get invites.",
+    "deleteDBPunishmentFail": "Could not delete punishment.",
+    "deleteDBInviteFail": "Could not delete invite."
+  },
+  "discord": {
+    "_comment": "Localization Strings that relate to Discord",
+    "punishment": {
+      "bans": "Bans",
+      "timeouts": "Timeouts",
+      "kicks": "Kicks",
+      "ban": "Ban",
+      "timeout": "Timeout",
+      "kick": "Kick"
+    },
+    "channel": "Channel"
+  },
+  "links": {
+    "_comment": "Global sidebar link names",
+    "apps": "Apps",
+    "users": "Users"
+  },
+  "modules": {
+    "_comment": "Respective Module Internationalization Strings",
+    "reportToModerators": {
+      "name": "Report to moderators"
+    },
+    "embedGenerator": {
+      "name": "Embed Generator",
+      "createTemplate": "Create Embed Template",
+      "dialog": {
+        "removeEmbed": {
+          "title": "Are you sure you would like to remove this embed?"
+        },
+        "sendEmbed": {
+          "title": "Send Embed"
+        }
+      },
+      "creator": {
+        "title": "Title",
+        "description": "Description",
+        "url": "URL",
+        "color": "Color",
+        "categories": {
+          "images": {
+            "title": "Images",
+            "imageUrl": "Image URL",
+            "thumbnailUrl": "Thumbnail URL"
+          },
+          "author": {
+            "title": "Author",
+            "name": "Name",
+            "url": "URL",
+            "avatarUrl": "Avatar URL"
+          },
+          "footer": {
+            "title": "Footer",
+            "text": "Text",
+            "iconUrl": "Icon URL"
+          },
+          "fields": {
+            "title": "Fields",
+            "name": "Name",
+            "value": "Value",
+            "addField": "Add Field",
+            "removeField": "Remove Field",
+            "inline": "Inline"
+          }
+        }
+      }
+    },
+    "reactionRoles": {
+      "name": "Reaction Roles",
+      "createTemplate": "Create Template"
+    },
+    "userMessages": {
+      "name": "User Messages",
+      "rtePlaceholder": "Type ^ to see variable auto completion.",
+      "editor": {
+        "interpolation": {
+          "mentionUser": "Mention User",
+          "username": "Username",
+          "serverName": "Server Name",
+          "channelName": "Channel Name",
+          "mentionEveryone": "Mention Everyone",
+          "mentionHere": "Mention Here"
+        }
+      },
+      "leave": {
+        "labelChannel": "Leave Channel",
+        "labelMessage": "Leave Messages"
+      },
+      "welcome": {
+        "labelChannel": "Welcome Channel",
+        "labelMessage": "Welcome Messages"
+      }
+    }
+  },
+  "pages": {
+    "_comment": "Respective Page Internationalization Strings",
+    "users": {
+      "statusJoined": "JOINED",
+      "statusBanned": "BANNED",
+      "statusOwner": "OWNER",
+      "table": {
+        "name": "Name",
+        "status": "Status",
+        "joined": "Joined",
+        "role": "Role",
+        "edit": "Edit"
+      },
+      "view": "View",
+      "history": "History"
+    },
+    "user": {
+      "navigation": {
+        "overview": "Overview",
+        "punishmentHistory": "Punishment History",
+        "inviteHistory": "Invite History"
+      },
+      "actions": {
+        "timeoutUser": "Timeout User",
+        "kickUser": "Kick User",
+        "banUser": "Ban User",
+        "dialogs": {
+          "generic": {
+            "reason": "Reason"
+          },
+          "timeout": {
+            "title": "Are you sure you would timeout",
+            "desc": "This action is irreversible and you can not go back. Are you sure you would like to timeout",
+            "tabs": {
+              "60s": "60 SECS",
+              "5m": "5 MINS",
+              "10m": "10 MINS",
+              "1h": "1 HOUR",
+              "1d": "1 DAY",
+              "1w": "1 WEEK",
+              "custom": {
+                "name": "CUSTOM",
+                "endDate": "End date",
+                "endTime": "End time"
+              }
+            }
+          },
+          "kick": {
+            "title": "Are you sure you would kick",
+            "desc": "This action is irreversible and you can not go back. Are you sure you would like to kick"
+          },
+          "ban": {
+            "title": "Are you sure you would ban",
+            "desc": "This action is irreversible and you can not go back. Are you sure you would like to ban"
+          }
+        }
+      },
+      "currentTimeout": "Current Timeout"
+    },
+    "punishmentHistory": {
+      "type": "Type",
+      "created": "Created",
+      "duration": "Duration",
+      "activeChip": "Active",
+      "actionRemove": "Remove punishment from user's record",
+      "actionDeactivateTimeout": "Deactivate timeout",
+      "actionDeactivateBan": "Deactivate ban",
+      "reason": "Reason",
+      "punisher": "Punisher",
+      "actions": "Actions"
+    },
+    "inviteHistory": {
+      "member": "Member",
+      "actionRemove": "Remove invite from user's history",
+      "actions": "Actions",
+      "created": "Created",
+      "valid": "Valid",
+      "validChip": "VALID",
+      "invalidChip": "INVALID"
+    }
+  }
+}

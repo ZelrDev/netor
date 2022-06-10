@@ -1,6 +1,6 @@
 import { useMantineTheme } from "@mantine/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import type { BrowserHistory } from "history";
 import React, { useContext } from "react";
 import { useState } from "react";
@@ -9,11 +9,31 @@ import LoadingBar from "react-top-loading-bar";
 import discordStyleSheetUrl from "./styles/discord.css";
 import fontStyles from "./styles/font.css";
 import rootStyles from "./styles/globals.css";
-import { DEFAULT_THEME, LoadingOverlay } from "@mantine/core";
-import { DevBuild } from "./components/DevBuild";
-import { Document } from "./components/Document";
-export { ErrorBoundary } from "~/components/ErrorBoundaryCode";
-export { CatchBoundary } from "~/components/CatchBoundary";
+import { DevBuild } from "./shared-components/DevBuild";
+import { Document } from "./shared-components/Document";
+import { useChangeLanguage } from "remix-i18next";
+import { useTranslation } from "react-i18next";
+import i18next from "~/i18next.server";
+import { isServer } from "./lib/isServer";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
+export { ErrorBoundary } from "~/shared-components/ErrorBoundaryCode";
+export { CatchBoundary } from "~/shared-components/CatchBoundary";
+
+type LoaderData = { locale: string };
+
+export let loader: LoaderFunction = async ({ request }) => {
+  let locale = await i18next.getLocale(request);
+  return json<LoaderData>({ locale });
+};
+
+export let handle = {
+  // In the handle export, we can add a i18n key with namespaces our route
+  // will need to load. This key can be a single string or an array of strings.
+  // TIP: In most cases, you should set this to your defaultNS from your i18n config
+  // or if you did not set one, set it to the i18next default namespace "translation"
+  i18n: "translation",
+};
 
 export const links: LinksFunction = () => {
   return [
@@ -29,35 +49,8 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-const customLoader = (
-  <svg
-    width="54"
-    height="54"
-    viewBox="0 0 38 38"
-    xmlns="http://www.w3.org/2000/svg"
-    stroke={DEFAULT_THEME.colors.indigo[6]}
-  >
-    <g fill="none" fillRule="evenodd">
-      <g transform="translate(1 1)" strokeWidth="2">
-        <circle strokeOpacity=".5" cx="18" cy="18" r="18" />
-        <path d="M36 18c0-9.94-8.06-18-18-18">
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="0 18 18"
-            to="360 18 18"
-            dur="1s"
-            repeatCount="indefinite"
-          />
-        </path>
-      </g>
-    </g>
-  </svg>
-);
-
 export default function App() {
   const [progress, setProgress] = useState(0);
-  const [loaderVisible, setLoaderVisible] = useState<boolean>(false);
   const location = useLocation();
   const theme = useMantineTheme();
 
@@ -66,20 +59,17 @@ export default function App() {
   React.useEffect(() => {
     if (navigation) {
       navigation.listen((locationListener) => {
-        setLoaderVisible(true);
         setProgress(75);
       });
     }
   }, [navigation]);
 
   React.useEffect(() => {
-    setLoaderVisible(false);
     setProgress(100);
   }, [location]);
 
   return (
     <Document>
-      <LoadingOverlay loader={customLoader} visible={loaderVisible} />
       <LoadingBar
         shadow
         color={theme.colors.indigo[5]}

@@ -4,6 +4,7 @@ import crypto from "crypto";
 import type { embed, embed_field } from "@prisma/client";
 import { error } from "~/utils";
 import errors from "~/errors.json";
+import i18n from "~/i18next.server";
 
 export type { guild as DBGuild } from "@prisma/client";
 export type DBGuildEmbeds = DBGuildEmbed[];
@@ -17,6 +18,8 @@ export async function deleteSessionURI(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.session_uri.deleteMany({
       where: {
@@ -25,7 +28,7 @@ export async function deleteSessionURI(
       },
     });
   } catch (e) {
-    error(false, errors.DELETE_URI_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.deleteURIFail"), 500, rawErrorOutput);
   }
 }
 
@@ -34,6 +37,8 @@ export async function deleteURI(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.uri.deleteMany({
       where: {
@@ -42,11 +47,13 @@ export async function deleteURI(
       },
     });
   } catch (e) {
-    error(false, errors.DELETE_URI_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.deleteURIFail"), 500, rawErrorOutput);
   }
 }
 
 export async function deleteDBEmbed(embedId: number, rawErrorOutput?: boolean) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.embed.delete({
       where: {
@@ -54,7 +61,7 @@ export async function deleteDBEmbed(embedId: number, rawErrorOutput?: boolean) {
       },
     });
   } catch (e) {
-    error(false, errors.DELETE_EMBED_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.deleteEmbedFail"), 500, rawErrorOutput);
   }
 }
 
@@ -63,6 +70,8 @@ export async function createDBEmbed(
   embed: DiscordEmbed,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   let creation: DBGuildEmbed = await prisma.embed.create({
     data: {
       guild_id: guildId,
@@ -90,7 +99,7 @@ export async function createDBEmbed(
         : undefined,
     },
   });
-  error(creation, errors.CREATE_EMBED_DB_FAIL, 500, rawErrorOutput);
+  error(creation, t("errors.createEmbedDBFail"), 500, rawErrorOutput);
   try {
     const fields = await prisma.embed_field.findMany({
       where: {
@@ -102,7 +111,7 @@ export async function createDBEmbed(
 
     return creation;
   } catch (e) {
-    error(false, errors.CREATE_EMBED_QUERY_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.createEmbedQueryFail"), 500, rawErrorOutput);
   }
 }
 
@@ -111,6 +120,8 @@ export async function createSessionURI(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   const uriDB = await prisma.uri.findFirst({
     where: {
       guild_id: id,
@@ -118,7 +129,7 @@ export async function createSessionURI(
     },
   });
 
-  error(uriDB, errors.CREATE_SESSION_URI_QUERY_FAIL, 500, rawErrorOutput);
+  error(uriDB, t("errors.createSessionURIQueryFail"), 500, rawErrorOutput);
   const uuid = crypto.randomUUID();
   const update = await prisma.session_uri.create({
     data: {
@@ -127,7 +138,7 @@ export async function createSessionURI(
       user_id: uriDB.user_id,
     },
   });
-  error(update, errors.CREATE_SESSION_URI_DB_FAIL, 500, rawErrorOutput);
+  error(update, t("errors.createSessionURIDBFail"), 500, rawErrorOutput);
   return uuid;
 }
 
@@ -136,6 +147,8 @@ export async function getURI(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.uri.findFirst({
       where: {
@@ -144,7 +157,7 @@ export async function getURI(
       },
     });
   } catch (e) {
-    error(false, errors.VALIDATE_SESSION_URI_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.validateSessionURIFail"), 500, rawErrorOutput);
   }
 }
 
@@ -153,6 +166,8 @@ export async function getSessionURI(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.session_uri.findFirst({
       where: {
@@ -161,7 +176,7 @@ export async function getSessionURI(
       },
     });
   } catch (e) {
-    error(false, errors.VALIDATE_SESSION_URI_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.validateSessionURIFail"), 500, rawErrorOutput);
   }
 }
 
@@ -170,6 +185,8 @@ export async function validateSessionURI(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return (await prisma.session_uri.findFirst({
       where: {
@@ -180,7 +197,7 @@ export async function validateSessionURI(
       ? true
       : false;
   } catch (e) {
-    error(false, errors.VALIDATE_SESSION_URI_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.validateSessionURIFail"), 500, rawErrorOutput);
   }
 }
 
@@ -189,8 +206,10 @@ export async function getDBGuildEmbeds(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   const session = await validateSessionURI(id, uri, rawErrorOutput);
-  error(session, errors.VALIDATE_DB_GUILD_FAIL, 401, rawErrorOutput);
+  error(session, "errors.validateDBGuildFail", 401, rawErrorOutput);
   try {
     let embeds: DBGuildEmbeds = await prisma.embed.findMany({
       where: {
@@ -209,7 +228,7 @@ export async function getDBGuildEmbeds(
 
     return embeds;
   } catch (e) {
-    error(false, errors.GET_GUILD_EMBEDS_FAIL, 500, rawErrorOutput);
+    error(false, "errors.getGuildEmbedsFail", 500, rawErrorOutput);
   }
 }
 export async function getDBGuild(
@@ -217,18 +236,41 @@ export async function getDBGuild(
   uri: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   const session = await validateSessionURI(id, uri, rawErrorOutput);
-  error(session, errors.VALIDATE_DB_GUILD_FAIL, 401, rawErrorOutput);
+  error(session, t("errors.validateDBGuildFail"), 401, rawErrorOutput);
   try {
     const guild = await prisma.guild.findFirst({
       where: {
         id,
       },
     });
-    error(guild, errors.NO_GUILD_DB, 500, rawErrorOutput);
+    error(guild, "errors.noGuildDB", 500, rawErrorOutput);
     return guild;
   } catch (e) {
-    error(false, errors.FAIL_GUILD_DB, 500, rawErrorOutput);
+    error(false, "errors.failGuildDB", 500, rawErrorOutput);
+  }
+}
+
+export async function toggleRR(
+  id: string,
+  enable: boolean,
+  rawErrorOutput?: boolean
+) {
+  const t = await i18n.getFixedT("en");
+
+  try {
+    return prisma.guild.update({
+      where: {
+        id,
+      },
+      data: {
+        rr_enabled: enable,
+      },
+    });
+  } catch (e) {
+    error(false, t("errors.toggleDBRRFail"), 500, rawErrorOutput);
   }
 }
 
@@ -237,6 +279,8 @@ export async function toggleUM(
   enable: boolean,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -247,7 +291,7 @@ export async function toggleUM(
       },
     });
   } catch (e) {
-    error(false, errors.TOGGLE_DB_UM_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.toggleDBUMFail"), 500, rawErrorOutput);
   }
 }
 
@@ -256,6 +300,8 @@ export async function toggleRTM(
   enable: boolean,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -266,7 +312,7 @@ export async function toggleRTM(
       },
     });
   } catch (e) {
-    error(false, errors.TOGGLE_DB_RTM_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.toggleDBRTMFail"), 500, rawErrorOutput);
   }
 }
 
@@ -275,6 +321,8 @@ export async function updateRTMChannel(
   channelId: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -285,7 +333,7 @@ export async function updateRTMChannel(
       },
     });
   } catch (e) {
-    error(false, errors.UPDATE_DB_RTM_CHANNEL_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.updateDBRTMChannelFail"), 500, rawErrorOutput);
   }
 }
 
@@ -294,6 +342,8 @@ export async function updateUMLeaveChannel(
   channelId: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -304,7 +354,7 @@ export async function updateUMLeaveChannel(
       },
     });
   } catch (e) {
-    error(false, errors.UPDATE_DB_UM_CHANNEL_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.updateDBUMChannelFail"), 500, rawErrorOutput);
   }
 }
 
@@ -313,6 +363,8 @@ export async function updateUMLeaveMessage(
   message: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -323,7 +375,7 @@ export async function updateUMLeaveMessage(
       },
     });
   } catch (e) {
-    error(false, errors.UPDATE_DB_UM_CHANNEL_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.updateDBUMChannelFail"), 500, rawErrorOutput);
   }
 }
 
@@ -332,6 +384,8 @@ export async function updateUMLeaveMessageRAW(
   message: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -342,7 +396,7 @@ export async function updateUMLeaveMessageRAW(
       },
     });
   } catch (e) {
-    error(false, errors.UPDATE_DB_UM_MSG_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.updateDBUMMSGFail"), 500, rawErrorOutput);
   }
 }
 
@@ -351,6 +405,8 @@ export async function updateUMWelcomeMessageRAW(
   message: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -361,7 +417,7 @@ export async function updateUMWelcomeMessageRAW(
       },
     });
   } catch (e) {
-    error(false, errors.UPDATE_DB_UM_MSG_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.updateDBUMMSGFail"), 500, rawErrorOutput);
   }
 }
 
@@ -370,6 +426,8 @@ export async function updateUMWelcomeMessage(
   message: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -380,7 +438,7 @@ export async function updateUMWelcomeMessage(
       },
     });
   } catch (e) {
-    error(false, errors.UPDATE_DB_UM_MSG_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.updateDBUMMSGFail"), 500, rawErrorOutput);
   }
 }
 
@@ -389,6 +447,8 @@ export async function updateUMWelcomeChannel(
   channelId: string,
   rawErrorOutput?: boolean
 ) {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.guild.update({
       where: {
@@ -399,6 +459,6 @@ export async function updateUMWelcomeChannel(
       },
     });
   } catch (e) {
-    error(false, errors.UPDATE_DB_UM_CHANNEL_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.updateDBUMChannelFail"), 500, rawErrorOutput);
   }
 }

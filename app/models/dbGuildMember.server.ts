@@ -1,9 +1,9 @@
 import { prisma } from "~/db.server";
 import type { punishment, user_invite } from "@prisma/client";
 import type { APIUser } from "discord-api-types/v10";
-import { getAPIUser } from "~/requests/apiUser";
+import { getAPIUser } from "~/api-requests/apiUser.server";
 import { error } from "~/utils";
-import errors from "~/errors.json";
+import i18n from "~/i18next.server";
 
 export interface DBGuildMemberPunishment extends punishment {
   punisher?: APIUser;
@@ -27,6 +27,8 @@ export const getDBGuildPunishmentsRAW = async (
   guildId: string,
   rawErrorOutput?: boolean
 ) => {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.punishment.findMany({
       where: {
@@ -34,7 +36,7 @@ export const getDBGuildPunishmentsRAW = async (
       },
     });
   } catch {
-    error(false, errors.GET_DB_PUNISHMENTS_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.getDBPunishmentsFail"), 500, rawErrorOutput);
   }
 };
 
@@ -43,6 +45,8 @@ export const getDBGuildMemberInvitesRAW = async (
   userId: string,
   rawErrorOutput?: boolean
 ) => {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.user_invite.findMany({
       where: {
@@ -51,7 +55,7 @@ export const getDBGuildMemberInvitesRAW = async (
       },
     });
   } catch {
-    error(false, errors.GET_DB_INVITES_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.getDBInvitesFail"), 500, rawErrorOutput);
   }
 };
 
@@ -60,6 +64,8 @@ export const getDBGuildMemberPunishmentsRAW = async (
   userId: string,
   rawErrorOutput?: boolean
 ) => {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.punishment.findMany({
       where: {
@@ -68,7 +74,7 @@ export const getDBGuildMemberPunishmentsRAW = async (
       },
     });
   } catch {
-    error(false, errors.GET_DB_PUNISHMENTS_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.getDBPunishmentsFail"), 500, rawErrorOutput);
   }
 };
 
@@ -76,6 +82,8 @@ export const removeDBGuildMemberInvite = async (
   inviteId: string,
   rawErrorOutput?: boolean
 ) => {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.user_invite.delete({
       where: {
@@ -83,7 +91,7 @@ export const removeDBGuildMemberInvite = async (
       },
     });
   } catch {
-    error(false, errors.DELETE_DB_INVITE_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.deleteDBInviteFail"), 500, rawErrorOutput);
   }
 };
 
@@ -91,6 +99,8 @@ export const removeDBGuildMemberPunishment = async (
   punishmentId: string,
   rawErrorOutput?: boolean
 ) => {
+  const t = await i18n.getFixedT("en");
+
   try {
     return prisma.punishment.delete({
       where: {
@@ -98,7 +108,7 @@ export const removeDBGuildMemberPunishment = async (
       },
     });
   } catch {
-    error(false, errors.DELETE_DB_PUNISHMENT_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.deleteDBPunishmentFail"), 500, rawErrorOutput);
   }
 };
 
@@ -108,6 +118,8 @@ export const getDBGuildMemberPunishments = async (
   uri: string,
   rawErrorOutput?: boolean
 ) => {
+  const t = await i18n.getFixedT("en");
+
   try {
     let punisherIds: string[] = [];
     let punishers: APIUser[] = [];
@@ -142,7 +154,7 @@ export const getDBGuildMemberPunishments = async (
 
     return newPunishments;
   } catch {
-    error(false, errors.GET_DB_PUNISHMENTS_FAIL, 500, rawErrorOutput);
+    error(false, t("errors.getDBPunishmentsFail"), 500, rawErrorOutput);
   }
 };
 
@@ -152,6 +164,8 @@ export const getDBGuildMemberInvites = async (
   uri: string,
   rawErrorOutput?: boolean
 ) => {
+  const t = await i18n.getFixedT("en");
+
   try {
     let joinedIds: string[] = [];
     let joined: APIUser[] = [];
@@ -185,8 +199,7 @@ export const getDBGuildMemberInvites = async (
     );
 
     return newInvites;
-  } catch (e) {
-    console.log(e);
-    error(false, e, 500, rawErrorOutput);
+  } catch {
+    error(false, t("errors.getDBInvitesFail"), 500, rawErrorOutput);
   }
 };

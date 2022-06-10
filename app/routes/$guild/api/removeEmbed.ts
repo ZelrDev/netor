@@ -1,0 +1,27 @@
+import type { ActionFunction } from "@remix-run/node";
+import { validateSessionURI, deleteDBEmbed } from "~/models/dbGuild.server";
+import { getSession } from "~/modules/auth/sessions.server";
+import { error } from "~/utils";
+import { useEffect } from "react";
+import { redirect } from "@remix-run/server-runtime";
+import i18n from "~/i18next.server";
+
+export const action: ActionFunction = async ({ request, params }) => {
+  let t = await i18n.getFixedT(request);
+
+  const session = await getSession(request.headers.get("Cookie"));
+  const uri = session.get("uuid");
+
+  error(params.guild, `params.guild is required`, 400, true);
+  error(uri, `session is required`, 400, true);
+
+  const data = await request.formData();
+
+  const validate = await validateSessionURI(params.guild, uri, true);
+  error(validate, t("errors.validateDBGuildFail"), 400, true);
+
+  const embedId = data.get("embed_id");
+  error(embedId, `embed_id is required`, 400, true);
+  await deleteDBEmbed(parseInt(embedId!.toString()), true);
+  return null;
+};

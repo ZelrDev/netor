@@ -1,13 +1,4 @@
 @font-face {
-  font-family: 'Giro';
-  src: url('Giro-Light.woff2') format('woff2'),
-      url('Giro-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: "Whitney";
   src: url("/fonts/Whitney-Light.woff2") format("woff2"),
     url("/fonts/Whitney-Light.woff") format("woff");

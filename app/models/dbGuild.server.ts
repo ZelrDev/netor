@@ -2,9 +2,8 @@ import type DiscordEmbed from "types/DiscordEmbed";
 import { prisma } from "~/db.server";
 import crypto from "crypto";
 import type { embed, embed_field } from "@prisma/client";
-import { error } from "~/utils";
-import errors from "~/errors.json";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
 
 export type { guild as DBGuild } from "@prisma/client";
 export type DBGuildEmbeds = DBGuildEmbed[];
@@ -209,7 +208,7 @@ export async function getDBGuildEmbeds(
   const t = await i18n.getFixedT("en");
 
   const session = await validateSessionURI(id, uri, rawErrorOutput);
-  error(session, "errors.validateDBGuildFail", 401, rawErrorOutput);
+  error(session, t("errors.validateDBGuildFail"), 401, rawErrorOutput);
   try {
     let embeds: DBGuildEmbeds = await prisma.embed.findMany({
       where: {
@@ -228,7 +227,7 @@ export async function getDBGuildEmbeds(
 
     return embeds;
   } catch (e) {
-    error(false, "errors.getGuildEmbedsFail", 500, rawErrorOutput);
+    error(false, t("errors.getGuildEmbedsFail"), 500, rawErrorOutput);
   }
 }
 export async function getDBGuild(

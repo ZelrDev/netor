@@ -1,12 +1,13 @@
 import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/server-runtime";
+import { error } from "~/lib/error";
+import { safeRedirect } from "~/lib/safeRedirect";
 import {
   deleteSessionURI,
   createSessionURI,
   deleteURI,
 } from "~/models/dbGuild.server";
 import { getSession, commitSession } from "~/modules/auth/sessions.server";
-import { error, safeRedirect } from "~/utils";
 
 export const action: ActionFunction = async ({ request, params }) => {
   const data = await request.formData();

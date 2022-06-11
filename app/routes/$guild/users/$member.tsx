@@ -1,9 +1,7 @@
 import { Outlet } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
-import { redirect } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import { getSession } from "~/modules/auth/sessions.server";
-import { discordAvatar, error } from "~/utils";
 import { useData } from "~/shared-hooks/use-data";
 import type { LoaderData as GuildLoaderData } from "../../$guild";
 import { AppsNavbar } from "~/ui/RoutesNavbar";
@@ -11,7 +9,6 @@ import { getAPIGuildMember } from "~/api-requests/apiGuildMember.server";
 import type { APIGuildMember } from "~/api-requests/apiGuildMember.server";
 import type { APIUser } from "~/api-requests/apiUser.server";
 import { getAPIUser } from "~/api-requests/apiUser.server";
-import errors from "~/errors.json";
 import {
   ClipboardCheckIcon,
   CollectionIcon,
@@ -22,6 +19,7 @@ import { useGenericDiscordUser } from "~/shared-hooks/use-generic-discord-user";
 import { DiscordUserTitle } from "~/ui/DiscordUserTitle";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
 
 type RouteLoaderData = {
   apiGuildMember?: APIGuildMember;

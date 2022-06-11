@@ -1,9 +1,3 @@
-import {
-  ChatAlt2Icon,
-  ChatIcon,
-  ShieldCheckIcon,
-  UserGroupIcon,
-} from "@heroicons/react/solid";
 import { Anchor, Box, createStyles, Group, Stack, Text } from "@mantine/core";
 import { Link, useLocation } from "@remix-run/react";
 import React from "react";

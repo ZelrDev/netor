@@ -1,14 +1,17 @@
-import type { ActionFunction } from "@remix-run/node";
-import { Link, useOutletContext, useParams, useSubmit } from "@remix-run/react";
+import type { ActionFunction, MetaFunction } from "@remix-run/node";
+import { Link, useSubmit } from "@remix-run/react";
 import { getDBGuild, toggleRR } from "~/models/dbGuild.server";
 import { useEffect, useState } from "react";
 import { getSession } from "~/modules/auth/sessions.server";
 import { Button, Stack, Switch, Title } from "@mantine/core";
-import { Breadcrumbs } from "~/ui/Breadcrumbs";
-import { error } from "~/utils";
 import type { LoaderData } from "~/routes/$guild/apps";
 import { useData } from "~/shared-hooks/use-data";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import { error } from "~/lib/error";
+
+export const meta: MetaFunction = () => ({
+  title: "Reaction Roles | Netor",
+});
 
 export const action: ActionFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get("Cookie"));
@@ -33,9 +36,7 @@ export default function Index() {
   const { dbGuild } = useData() as LoaderData;
   const [checked, setChecked] = useState<boolean>(false);
   const [ready, setReady] = useState<boolean>(false);
-  const params = useParams();
   const { t } = useTypeSafeTranslation();
-  const navigateURL = (path: string) => `/${params.guild}/${path}`;
   const submit = useSubmit();
 
   useEffect(() => {

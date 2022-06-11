@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://netor.zelr.me
+
+# Sitemaps
+Sitemap: https://netor.zelr.me/sitemap.xml

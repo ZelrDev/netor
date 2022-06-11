@@ -1,20 +1,23 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
+import { useParams } from "@remix-run/react";
 import { getDBGuildEmbeds } from "~/models/dbGuild.server";
 import type { DBGuildEmbeds } from "~/models/dbGuild.server";
 import { getSession } from "~/modules/auth/sessions.server";
 import { Title } from "@mantine/core";
 import { Breadcrumbs } from "~/ui/Breadcrumbs";
-import { error } from "~/utils";
 import { ReactionRoleCreator } from "~/modules/guild/reaction-role/ReactionRoleCreator";
 import { getAPIGuildRoles } from "~/api-requests/apiGuildRoles.server";
 import type { APIGuildRoles } from "~/api-requests/apiGuildRoles.server";
-import errors from "~/errors.json";
 import { useData } from "~/shared-hooks/use-data";
 import type { LoaderData } from "../../apps";
 import i18n from "~/i18next.server";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import { error } from "~/lib/error";
+
+export const meta: MetaFunction = () => ({
+  title: "Create Reaction Role | Netor",
+});
 
 type RouteLoaderData = {
   dbGuildEmbeds: DBGuildEmbeds;

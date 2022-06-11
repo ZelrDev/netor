@@ -1,6 +1,6 @@
 import { useMantineTheme } from "@mantine/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 import type { BrowserHistory } from "history";
 import React, { useContext } from "react";
 import { useState } from "react";
@@ -11,12 +11,10 @@ import fontStyles from "./styles/font.css";
 import rootStyles from "./styles/globals.css";
 import { DevBuild } from "./shared-components/DevBuild";
 import { Document } from "./shared-components/Document";
-import { useChangeLanguage } from "remix-i18next";
-import { useTranslation } from "react-i18next";
 import i18next from "~/i18next.server";
-import { isServer } from "./lib/isServer";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
+import appIcon from "~/media/branding/App.png";
 export { ErrorBoundary } from "~/shared-components/ErrorBoundaryCode";
 export { CatchBoundary } from "~/shared-components/CatchBoundary";
 
@@ -45,8 +43,23 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Netor",
+  title: "Netor - A bot that fully integrates with Discord",
   viewport: "width=device-width,initial-scale=1",
+  name: "Netor - A bot that fully integrates with Discord",
+  description:
+    "Moderate with ease. No need for extra commands, right click on the user and ban. Automatically logs all punishments.",
+  "og:type": "website",
+  "og:url": "https://netor.zelr.me",
+  "og:title": "Netor - A bot that fully integrates with Discord",
+  "og:description":
+    "Moderate with ease. No need for extra commands, right click on the user and ban. Automatically logs all punishments.",
+  "og:image": appIcon,
+  "twitter:card": "summary_large_image",
+  "twitter:url": "https://netor.zelr.me",
+  "twitter:title": "Netor - A bot that fully integrates with Discord",
+  "twitter:description":
+    "Moderate with ease. No need for extra commands, right click on the user and ban. Automatically logs all punishments.",
+  "twitter:image": appIcon,
 });
 
 export default function App() {

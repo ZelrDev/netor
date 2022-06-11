@@ -5,11 +5,11 @@ import { useState } from "react";
 import type { DBGuildEmbed, DBGuildEmbeds } from "~/models/dbGuild.server";
 import type { APIGuild } from "~/api-requests/apiGuild.server";
 import type { APIGuildChannels } from "~/api-requests/apiGuildChannels.server";
-import { convertDBEmbedToDiscordEmbed } from "~/utils";
 import { Embeds } from "./Embeds";
 import { ButtonsGroup } from "~/ui/ButtonsGroup";
 import { useGuild } from "../use-guild";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import { convertDBEmbedToDiscordEmbed } from "~/lib/convertDBEmbedToDiscordEmbed";
 
 const filterChannels = (channels: APIGuildChannels) =>
   channels.filter((channel) => channel.type === 0);
@@ -60,6 +60,7 @@ export const EmbedSend = (props: {
           <Button
             onClick={() => {
               if (!channel) return setChannelError(true);
+              setOpened(false);
               sendEmbed(
                 convertDBEmbedToDiscordEmbed(currentEmbed!),
                 channel.id

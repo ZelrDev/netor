@@ -1,10 +1,8 @@
 import type { ActionFunction } from "@remix-run/node";
 import { validateSessionURI, deleteDBEmbed } from "~/models/dbGuild.server";
 import { getSession } from "~/modules/auth/sessions.server";
-import { error } from "~/utils";
-import { useEffect } from "react";
-import { redirect } from "@remix-run/server-runtime";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
 
 export const action: ActionFunction = async ({ request, params }) => {
   let t = await i18n.getFixedT(request);

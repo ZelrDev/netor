@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useLocation } from "@remix-run/react";
+import { safeRedirect } from "~/lib/safeRedirect";
 import { useAPI } from "~/shared-hooks/use-api";
-import { safeRedirect } from "~/utils";
 
 export const useSwitchUser = (switchUser: boolean) => {
   const params = useParams();

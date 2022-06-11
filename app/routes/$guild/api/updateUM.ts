@@ -1,4 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
+import { cleanUpMessage } from "~/lib/cleanUpMessage";
+import { error } from "~/lib/error";
 import {
   getDBGuild,
   updateUMLeaveChannel,
@@ -9,7 +11,6 @@ import {
   updateUMWelcomeMessageRAW,
 } from "~/models/dbGuild.server";
 import { getSession } from "~/modules/auth/sessions.server";
-import { cleanUpMessage, error } from "~/utils";
 import { tags } from "~/modules/guild/user-messages/UserMessageInput";
 
 export const action: ActionFunction = async ({ request, params }) => {

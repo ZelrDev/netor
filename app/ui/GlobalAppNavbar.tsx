@@ -1,36 +1,27 @@
-import { useState } from "react";
 import {
   createStyles,
   Navbar,
   UnstyledButton,
   Tooltip,
-  Title,
   ScrollArea,
   Box,
   Anchor,
   Image,
   ActionIcon,
   useMantineColorScheme,
-  MediaQuery,
   Stack,
+  Text,
 } from "@mantine/core";
 import {
   LogoutIcon,
-  MenuIcon,
   MoonIcon,
   SunIcon,
   UserGroupIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid";
-import {
-  Link,
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "@remix-run/react";
+import core from "~/media/branding/Transparent.png";
+import { Link, useLocation, useNavigate, useParams } from "@remix-run/react";
 import type { APIGuild } from "~/api-requests/apiGuild.server";
-import { discordServerAvatar } from "~/utils";
 import { useModals } from "@mantine/modals";
 
 const useStyles = createStyles((theme) => ({
@@ -41,8 +32,9 @@ const useStyles = createStyles((theme) => ({
   aside: {
     gap: theme.spacing.xs,
     flex: "0 0 70px",
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+    background:
+      "radial-gradient(circle at 31% 0%, rgba(66, 135, 245,0.368627), transparent 180px)",
+
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -51,8 +43,6 @@ const useStyles = createStyles((theme) => ({
   section: {
     gap: theme.spacing.xs,
     flex: "0 0 70px",
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -61,15 +51,6 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3]
     }`,
     paddingBottom: theme.spacing.xs,
-  },
-
-  main: {
-    flex: 1,
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-    height: "100%",
   },
 
   mainLinkPill: {
@@ -165,9 +146,6 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     height: 70,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3]
-    }`,
     marginBottom: theme.spacing.xs,
   },
 
@@ -268,23 +246,25 @@ export function GlobalAppNavbar({
 
   return (
     <Box style={{ display: "flex", flexGrow: 2 }}>
-      <Navbar height="100vh" width={{ base: 70 }}>
+      <Navbar
+        height="100vh"
+        width={{ base: 73 }}
+        style={{ borderRight: "none" }}
+      >
         <Navbar.Section grow className={classes.wrapper}>
           <div className={classes.section}>
             <div className={classes.aside}>
               <div className={classes.logo}>
-                <Tooltip
-                  position="right"
-                  withArrow
-                  transitionDuration={0}
-                  label={apiGuild.name}
-                >
-                  <Image
-                    radius="xl"
-                    p="sm"
-                    src={discordServerAvatar(apiGuild.id, apiGuild.icon)}
-                  />
-                </Tooltip>
+                <Stack spacing={0}>
+                  <Image p="xs" src={core} />
+                  <Text
+                    style={{ marginTop: -14, fontSize: 10 }}
+                    align="center"
+                    color="indigo"
+                  >
+                    Dev
+                  </Text>
+                </Stack>
               </div>
 
               {mainLinks}

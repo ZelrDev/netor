@@ -7,6 +7,7 @@ import {
   Code,
   createStyles,
 } from "@mantine/core";
+import type { MetaFunction } from "@remix-run/server-runtime";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import { Document } from "./Document";
 
@@ -49,6 +50,10 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.xl * 1.5,
   },
 }));
+
+export const meta: MetaFunction = () => ({
+  title: "Error | Netor",
+});
 
 export const ErrorBoundary = ({ error }: { error: Error }) => {
   const { classes } = useStyles();

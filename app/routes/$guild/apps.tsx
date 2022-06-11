@@ -2,8 +2,6 @@ import { Outlet } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import { getSession } from "~/modules/auth/sessions.server";
-import { error } from "~/utils";
-import errors from "~/errors.json";
 import { getAPIGuildChannels } from "~/api-requests/apiGuildChannels.server";
 import type { APIGuildChannels } from "~/api-requests/apiGuildChannels.server";
 import { useData } from "~/shared-hooks/use-data";
@@ -12,11 +10,11 @@ import { AppsNavbar } from "~/ui/RoutesNavbar";
 import {
   ShieldCheckIcon,
   ChatAlt2Icon,
-  UserGroupIcon,
   ChatIcon,
 } from "@heroicons/react/solid";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
 
 type RouteLoaderData = {
   apiGuildChannels: APIGuildChannels;

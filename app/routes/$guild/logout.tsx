@@ -1,8 +1,9 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+import { error } from "~/lib/error";
+import { safeRedirect } from "~/lib/safeRedirect";
 import { deleteSessionURI } from "~/models/dbGuild.server";
 import { getSession, destroySession } from "~/modules/auth/sessions.server";
-import { error, safeRedirect } from "~/utils";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get("Cookie"));

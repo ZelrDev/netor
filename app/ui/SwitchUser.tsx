@@ -11,7 +11,7 @@ import {
   Text,
 } from "@mantine/core";
 import type { APIUser } from "~/api-requests/apiUser.server";
-import { discordAvatar } from "~/utils";
+import { discordAvatar } from "~/lib/discordServerAvatar";
 import { ButtonsGroup } from "./ButtonsGroup";
 
 export interface SwitchUserProps {

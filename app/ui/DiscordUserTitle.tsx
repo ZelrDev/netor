@@ -1,5 +1,5 @@
 import { Group, Avatar, Title } from "@mantine/core";
-import { discordAvatar } from "~/utils";
+import { discordAvatar } from "~/lib/discordServerAvatar";
 import { ThemeChip } from "./ThemeChip";
 
 export const DiscordUserTitle = (props: {

@@ -7,10 +7,9 @@ import type { DBGuild } from "~/models/dbGuild.server";
 import { getDBGuild } from "~/models/dbGuild.server";
 import { getSession } from "~/modules/auth/sessions.server";
 import { GlobalAppNavbar } from "~/ui/GlobalAppNavbar";
-import { error } from "~/utils";
-import errors from "~/errors.json";
 import { useData } from "~/shared-hooks/use-data";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
 
 export type LoaderData<T = {}> = T & {
   apiGuild: APIGuild;

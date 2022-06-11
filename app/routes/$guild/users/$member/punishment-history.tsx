@@ -1,21 +1,21 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
 import { getSession } from "~/modules/auth/sessions.server";
 import { getAPIGuildMemberBan } from "~/api-requests/apiGuildMember.server";
 import type { APIGuildMemberBan } from "~/api-requests/apiGuildMember.server";
-import { Breadcrumbs } from "~/ui/Breadcrumbs";
-import { Title } from "@mantine/core";
 import type { DBGuildMemberPunishments } from "~/models/dbGuildMember.server";
 import { getDBGuildMemberPunishments } from "~/models/dbGuildMember.server";
 import { UserPunishmentTable } from "~/modules/guild/user/UserPunishmentTable";
 import { useEffect, useState } from "react";
-import { error } from "~/utils";
-import errors from "~/errors.json";
 import type { LoaderData } from "../$member";
 import { useData } from "~/shared-hooks/use-data";
 import { useGenericDiscordUser } from "~/shared-hooks/use-generic-discord-user";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
+
+export const meta: MetaFunction = () => ({
+  title: "User Punishment History | Netor",
+});
 
 type RouteLoaderData = {
   apiGuildMemberBan: APIGuildMemberBan;

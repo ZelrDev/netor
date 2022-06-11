@@ -1,25 +1,25 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { getDBGuildEmbeds } from "~/models/dbGuild.server";
 import type { DBGuildEmbeds } from "~/models/dbGuild.server";
 import { getSession } from "~/modules/auth/sessions.server";
-import { error } from "~/utils";
 import { Title, Button } from "@mantine/core";
-import {
-  useParams,
-  Link,
-  useLoaderData,
-  useOutletContext,
-} from "@remix-run/react";
-import { Breadcrumbs } from "~/ui/Breadcrumbs";
+import { Link } from "@remix-run/react";
 import { EmbedSend } from "~/modules/guild/embed/EmbedListSend";
 import type { LoaderData } from "../../apps";
 import { useData } from "~/shared-hooks/use-data";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import { useState } from "react";
+import CreateIndex from "./create";
+import { error } from "~/lib/error";
 
 type RouteLoaderData = {
   dbGuildEmbeds: DBGuildEmbeds;
 };
+
+export const meta: MetaFunction = () => ({
+  title: "Embeds | Netor",
+});
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get("Cookie"));
@@ -37,16 +37,22 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   });
 };
 
-export default function Index() {
-  const data = useData() as LoaderData<RouteLoaderData>;
+export default function Index(props: { futureUI?: { data: any } }) {
+  let data = useData() as LoaderData<RouteLoaderData>;
+  if (props.futureUI) data = props.futureUI.data as LoaderData<RouteLoaderData>;
+  const [futureUI, setFutureUI] = useState<any>();
   const { t } = useTypeSafeTranslation();
 
-  return (
+  return futureUI ? (
+    futureUI
+  ) : (
     <>
       <Title order={2}>{t("modules.embedGenerator.name")}</Title>
 
       <Link to="create">
-        <Button mt="lg">{t("modules.embedGenerator.createTemplate")}</Button>
+        <Button onClick={() => setFutureUI(<CreateIndex />)} mt="lg">
+          {t("modules.embedGenerator.createTemplate")}
+        </Button>
       </Link>
       <EmbedSend {...data} />
     </>

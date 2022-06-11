@@ -6,7 +6,6 @@ import {
   Avatar,
   ScrollArea,
   Tooltip,
-  Anchor,
 } from "@mantine/core";
 import { useParams, Link, useNavigate } from "@remix-run/react";
 import ReactTimeAgo from "react-time-ago";
@@ -16,8 +15,8 @@ import type {
   APIGuildMembers,
 } from "~/api-requests/apiGuildMembers.server";
 import type { APIGuildRoles } from "~/api-requests/apiGuildRoles.server";
+import { discordAvatar } from "~/lib/discordServerAvatar";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
-import { discordAvatar } from "~/utils";
 
 import { ThemeChip } from "../../../ui/ThemeChip";
 

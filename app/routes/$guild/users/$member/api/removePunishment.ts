@@ -2,9 +2,7 @@ import type { ActionFunction } from "@remix-run/node";
 import { validateSessionURI } from "~/models/dbGuild.server";
 import { removeDBGuildMemberPunishment } from "~/models/dbGuildMember.server";
 import { getSession } from "~/modules/auth/sessions.server";
-import errors from "~/errors.json";
-import { error } from "~/utils";
-import { redirect } from "@remix-run/server-runtime";
+import { error } from "~/lib/error";
 import i18n from "~/i18next.server";
 
 export const action: ActionFunction = async ({ request, params }) => {

@@ -9,9 +9,10 @@ import {
 } from "~/models/dbGuild.server";
 import { getAPIUser } from "~/api-requests/apiUser.server";
 import { getSession, commitSession } from "~/modules/auth/sessions.server";
-import { error, safeRedirect } from "~/utils";
 import type { LoaderData } from "./loaderData";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
+import { safeRedirect } from "~/lib/safeRedirect";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   let t = await i18n.getFixedT(request);

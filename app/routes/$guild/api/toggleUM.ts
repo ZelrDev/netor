@@ -1,8 +1,7 @@
 import type { ActionFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/server-runtime";
-import { getDBGuild, toggleRTM, toggleUM } from "~/models/dbGuild.server";
+import { error } from "~/lib/error";
+import { getDBGuild, toggleUM } from "~/models/dbGuild.server";
 import { getSession } from "~/modules/auth/sessions.server";
-import { error } from "~/utils";
 
 export const action: ActionFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get("Cookie"));

@@ -23,10 +23,10 @@ import type { DBGuildMemberPunishments } from "~/models/dbGuildMember.server";
 import type { APIGuildMember } from "~/api-requests/apiGuildMember.server";
 import { ThemeChip } from "../../../ui/ThemeChip";
 import type { APIUser } from "~/api-requests/apiUser.server";
-import { discordAvatar } from "~/utils";
 import { useManageMember } from "./use-member";
 import type { APIGuild } from "~/api-requests/apiGuild.server";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import { discordAvatar } from "~/lib/discordServerAvatar";
 
 export const UserPunishmentTable = (props: {
   dbGuildMemberPunishments: DBGuildMemberPunishments;
@@ -160,11 +160,11 @@ export const UserPunishmentTable = (props: {
                           size="sm"
                         >
                           {punishment.type === "BAN" &&
-                            t("discord.punishment.ban")}
+                            t("discord.punishment.ban").toUpperCase()}
                           {punishment.type === "KICK" &&
-                            t("discord.punishment.kick")}
+                            t("discord.punishment.kick").toUpperCase()}
                           {punishment.type === "TIMEOUT" &&
-                            t("discord.punishment.timeout")}
+                            t("discord.punishment.timeout").toUpperCase()}
                         </Text>
                         {determineActive(punishment.type, punishmentDate) && (
                           <ThemeChip

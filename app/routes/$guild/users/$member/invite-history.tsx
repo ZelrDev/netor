@@ -1,12 +1,9 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useParams } from "@remix-run/react";
 import { getSession } from "~/modules/auth/sessions.server";
-import { Breadcrumbs } from "~/ui/Breadcrumbs";
-import { ActionIcon, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import type { DBGuildMemberInvites } from "~/models/dbGuildMember.server";
 import { getDBGuildMemberInvites } from "~/models/dbGuildMember.server";
-import { error } from "~/utils";
 import { InviteTable } from "~/modules/guild/user/UserInviteTable";
 import { XIcon } from "@heroicons/react/solid";
 import { useManageMember } from "~/modules/guild/user/use-member";
@@ -14,15 +11,17 @@ import { useData } from "~/shared-hooks/use-data";
 import type { LoaderData } from "../$member";
 import { useGenericDiscordUser } from "~/shared-hooks/use-generic-discord-user";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
-import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
+
+export const meta: MetaFunction = () => ({
+  title: "User Invite History | Netor",
+});
 
 type RouteLoaderData = {
   dbGuildMemberInvites: DBGuildMemberInvites;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  let t = await i18n.getFixedT(request);
-
   const session = await getSession(request.headers.get("Cookie"));
   const uri = session.get("uuid");
 
@@ -46,9 +45,6 @@ export default function Index() {
   const { t } = useTypeSafeTranslation();
 
   const { removeInvite } = useManageMember(apiGuild, apiUser);
-  const params = useParams();
-  const navigateURL = (path: string) => `/${params.guild}/${path}`;
-  const navigateUserURL = (id: string) => `/${params.guild}/users/${id}`;
 
   const invitesSorted = dbGuildMemberInvites.sort(
     (a, b) =>
@@ -63,7 +59,7 @@ export default function Index() {
             transition="pop"
             transitionDuration={300}
             transitionTimingFunction="ease"
-          label={t("pages.inviteHistory.actionRemove")}
+            label={t("pages.inviteHistory.actionRemove")}
           >
             <ActionIcon
               onClick={() => removeInvite(invite.id)}

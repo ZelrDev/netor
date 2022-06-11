@@ -17,9 +17,9 @@ import type {
 import type { APIGuildMember } from "~/api-requests/apiGuildMember.server";
 import { ThemeChip } from "../../../ui/ThemeChip";
 import type { APIUser } from "~/api-requests/apiUser.server";
-import { discordAvatar } from "~/utils";
 import type { ReactElement } from "react";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import { discordAvatar } from "~/lib/discordServerAvatar";
 
 export const InviteTable = (props: {
   invites: DBGuildMemberInvites;

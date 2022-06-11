@@ -3,9 +3,8 @@ import type DiscordEmbed from "types/DiscordEmbed";
 import { sendMessageEmbed } from "~/api-requests/apiGuildMessages.server";
 import { validateSessionURI } from "~/models/dbGuild.server";
 import { getSession } from "~/modules/auth/sessions.server";
-import { error } from "~/utils";
-import { redirect } from "@remix-run/server-runtime";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
 
 export const action: ActionFunction = async ({ request, params }) => {
   let t = await i18n.getFixedT(request);

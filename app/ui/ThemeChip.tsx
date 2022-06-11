@@ -1,7 +1,7 @@
 import { Box, Text } from "@mantine/core";
 
 function hexToRGBA(hex: string, opacity: number) {
-  if (hex === "#0") {
+ if (hex === "#0") {
     return "rgba(0, 0, 0, " + opacity / 2 + ")";
   }
   return (

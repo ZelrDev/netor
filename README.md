@@ -36,7 +36,7 @@ DATABASE_URL="<database url from docker, if in doubt use: 'postgresql://postgres
 SESSION_SECRET="<can be anything>"
 API_URL="<api url, get this through setting up the bot>"
 SPECIAL_AUTH="<can be anything, must be the same for the bot and dashboard>"
-DEV="<yes or no>"
+DISCORD_APPLICATION_ID="<bot id, get this from discord developer dashboard>"
 ```
 
 - Initial setup:

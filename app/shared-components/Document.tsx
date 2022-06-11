@@ -5,11 +5,12 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation,
 } from "@remix-run/react";
 import type { ColorScheme } from "@mantine/core";
 import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
 import { getCache } from "@mantine/core";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ClientStyleContext } from "~/context";
 import { useColorScheme } from "@mantine/hooks";
 import useLocalStorage from "~/shared-hooks/use-local-storage";
@@ -17,6 +18,7 @@ import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
 import { useChangeLanguage } from "remix-i18next";
+import { PathnameContextProvider } from "~/contexts/Pathname";
 
 interface DocumentProps {
   children: React.ReactNode;
@@ -69,6 +71,8 @@ export function Document({ children }: DocumentProps) {
   let { locale } = useLoaderData<LoaderData>();
 
   let { i18n } = useTranslation();
+  const [pathname, setPathname] = useState<string>("");
+  const location = useLocation();
 
   // This hook will change the i18n instance language to the current locale
   // detected by the loader, this way, when we do something to change the
@@ -88,6 +92,10 @@ export function Document({ children }: DocumentProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setPathname(location.pathname);
+  }, [location.pathname]);
+
   return (
     <html lang={locale} dir={i18n.dir()}>
       <head>
@@ -95,7 +103,11 @@ export function Document({ children }: DocumentProps) {
         <Links />
       </head>
       <body>
-        <MantineTheme>{children}</MantineTheme>
+        <MantineTheme>
+          <PathnameContextProvider value={{ pathname, setPathname }}>
+            {children}
+          </PathnameContextProvider>
+        </MantineTheme>
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}

@@ -10,6 +10,7 @@ import {
 import { useForm } from "@mantine/hooks";
 import { EmbedVisualizer } from "embed-visualizer";
 import { useEffect } from "react";
+import type DiscordEmbed from "types/DiscordEmbed";
 import type { APIGuild } from "~/api-requests/apiGuild.server";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import { useGuild } from "../use-guild";
@@ -27,7 +28,10 @@ function validURL(str: string) {
   return !!pattern.test(str);
 }
 
-export const EmbedCreator = (props: { apiGuild: APIGuild }) => {
+export const EmbedCreator = (props: {
+  apiGuild: APIGuild;
+  onCreate?: (embed: DiscordEmbed) => void;
+}) => {
   const { t } = useTypeSafeTranslation();
   const { createEmbed } = useGuild(props.apiGuild);
 
@@ -123,7 +127,12 @@ export const EmbedCreator = (props: { apiGuild: APIGuild }) => {
 
   return (
     <Group style={{ alignItems: "start" }} pt="md" spacing="xl" grow>
-      <form onSubmit={form.onSubmit((values) => createEmbed(embed))}>
+      <form
+        onSubmit={form.onSubmit((values) => {
+          props.onCreate && props.onCreate(embed);
+          setTimeout(() => createEmbed(embed), 50);
+        })}
+      >
         <Stack>
           <TextInput
             label={t("modules.embedGenerator.creator.title")}

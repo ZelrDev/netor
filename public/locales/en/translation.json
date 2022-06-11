@@ -206,13 +206,13 @@
           }
         }
       },
-      "currentTimeout": "Current Timeout"
+      "currentTimeout": "CURRENT TIMEOUT"
     },
     "punishmentHistory": {
       "type": "Type",
       "created": "Created",
       "duration": "Duration",
-      "activeChip": "Active",
+      "activeChip": "ACTIVE",
       "actionRemove": "Remove punishment from user's record",
       "actionDeactivateTimeout": "Deactivate timeout",
       "actionDeactivateBan": "Deactivate ban",

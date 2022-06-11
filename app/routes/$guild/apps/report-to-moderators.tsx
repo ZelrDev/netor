@@ -1,13 +1,16 @@
-import { useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import type { APIGuildChannels } from "~/api-requests/apiGuildChannels.server";
 import { Autocomplete, Stack, Switch, Title } from "@mantine/core";
 import { HashtagIcon } from "@heroicons/react/solid";
-import { Breadcrumbs } from "~/ui/Breadcrumbs";
 import { useGuild } from "~/modules/guild/use-guild";
 import type { LoaderData } from "~/routes/$guild/apps";
 import { useData } from "~/shared-hooks/use-data";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import type { MetaFunction } from "@remix-run/server-runtime";
+
+export const meta: MetaFunction = () => ({
+  title: "Report to moderators | Netor",
+});
 
 const filterChannels = (channels: APIGuildChannels) =>
   channels.filter((channel) => channel.type === 0);
@@ -24,10 +27,7 @@ export default function Index() {
   );
   const { updateRTMChannel, toggleRTM } = useGuild(apiGuild);
   const [ready, setReady] = useState<boolean>(false);
-  const params = useParams();
   const { t } = useTypeSafeTranslation();
-
-  const navigateURL = (path: string) => `/${params.guild}/${path}`;
 
   useEffect(() => {
     setLocalAutocompleteValue(selectedData?.value);
@@ -44,7 +44,7 @@ export default function Index() {
       });
     }
     if (dbGuild.rtm_enabled) setChecked(true);
-    setReady(true);
+    setTimeout(() => setReady(true), 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

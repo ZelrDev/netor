@@ -3,7 +3,7 @@ import { EmbedVisualizer } from "embed-visualizer";
 import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import type { DBGuildEmbed, DBGuildEmbeds } from "~/models/dbGuild.server";
-import { convertDBEmbedToDiscordEmbed } from "~/utils";
+import { convertDBEmbedToDiscordEmbed } from "~/lib/convertDBEmbedToDiscordEmbed";
 
 export const Embeds = (props: {
   embeds: DBGuildEmbeds;
@@ -39,7 +39,7 @@ export const Embeds = (props: {
               sx={(theme) => ({
                 backgroundColor:
                   theme.colorScheme === "dark"
-                    ? theme.colors.dark[8]
+                    ? theme.colors.dark[9]
                     : theme.colors.gray[0],
                 minWidth: 200,
               })}

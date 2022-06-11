@@ -10,6 +10,11 @@ import {
 import { useCatch } from "@remix-run/react";
 import { Document } from "./Document";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
+import type { MetaFunction } from "@remix-run/server-runtime";
+
+export const meta: MetaFunction = () => ({
+  title: "Error | Netor",
+});
 
 const useStyles = createStyles((theme) => ({
   root: {

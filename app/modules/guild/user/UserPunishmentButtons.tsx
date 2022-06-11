@@ -75,12 +75,12 @@ export const PunishmentButtons = (props: {
         handlePunishment({
           title:
             t("pages.user.actions.dialogs.timeout.title") +
-            "'" +
+            " '" +
             apiGuildMember.user!.username +
             "'",
           description:
             t("pages.user.actions.dialogs.timeout.desc") +
-            "'" +
+            " '" +
             apiGuildMember.user!.username +
             "'",
           punishment: "timeout",
@@ -97,12 +97,12 @@ export const PunishmentButtons = (props: {
         handlePunishment({
           title:
             t("pages.user.actions.dialogs.kick.title") +
-            "'" +
+            " '" +
             apiGuildMember.user!.username +
             "'",
           description:
             t("pages.user.actions.dialogs.kick.desc") +
-            "'" +
+            " '" +
             apiGuildMember.user!.username +
             "'",
           punishment: "kick",
@@ -118,9 +118,9 @@ export const PunishmentButtons = (props: {
         handlePunishment({
           title:
             t("pages.user.actions.dialogs.ban.title") +
-            "'" +
+            " '" +
             apiGuildMember.user!.username +
-            "'",
+            " '",
           description:
             t("pages.user.actions.dialogs.ban.desc") +
             "'" +

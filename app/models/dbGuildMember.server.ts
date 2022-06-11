@@ -2,8 +2,8 @@ import { prisma } from "~/db.server";
 import type { punishment, user_invite } from "@prisma/client";
 import type { APIUser } from "discord-api-types/v10";
 import { getAPIUser } from "~/api-requests/apiUser.server";
-import { error } from "~/utils";
 import i18n from "~/i18next.server";
+import { error } from "~/lib/error";
 
 export interface DBGuildMemberPunishment extends punishment {
   punisher?: APIUser;

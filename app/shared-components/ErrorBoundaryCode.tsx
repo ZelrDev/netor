@@ -60,7 +60,7 @@ export const ErrorBoundary = ({ error }: { error: Error }) => {
   const { t } = useTypeSafeTranslation();
   console.error(error);
   return (
-    <Document>
+    <Document error>
       <Container className={classes.root}>
         <div className={classes.label}></div>
         <Title className={classes.title}>{t("errors.unknown")}</Title>

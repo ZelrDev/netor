@@ -7,14 +7,13 @@ import { CurrentTimeout } from "~/modules/guild/user/UserCurrentTimeout";
 import type { DBGuildMemberPunishmentsRAW } from "~/models/dbGuildMember.server";
 import { getDBGuildMemberPunishmentsRAW } from "~/models/dbGuildMember.server";
 import { XIcon } from "@heroicons/react/solid";
-
-import { useData } from "~/shared-hooks/use-data";
 import type { LoaderData } from "../$member";
 import { useManageMember } from "~/modules/guild/user/use-member";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import { error } from "~/lib/error";
-
-export const meta: MetaFunction = () => ({
+import { customMeta } from "~/meta";
+import { useData } from "~/shared-hooks/use-data";
+export const meta: MetaFunction = customMeta({
   title: "User Overview | Netor",
 });
 

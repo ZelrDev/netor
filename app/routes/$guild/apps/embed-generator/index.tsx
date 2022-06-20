@@ -12,14 +12,14 @@ import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation
 import { useState } from "react";
 import CreateIndex from "./create";
 import { error } from "~/lib/error";
+import { customMeta } from "~/meta";
+export const meta: MetaFunction = customMeta({
+  title: "Embeds | Netor",
+});
 
 type RouteLoaderData = {
   dbGuildEmbeds: DBGuildEmbeds;
 };
-
-export const meta: MetaFunction = () => ({
-  title: "Embeds | Netor",
-});
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get("Cookie"));

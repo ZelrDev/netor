@@ -1,8 +1,9 @@
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLocation } from "@remix-run/react";
 import type { Params } from "react-router-dom";
 
-export const useAPI = (params: Readonly<Params<string>>) => {
+export const useAPI = (params?: Readonly<Params<string>>) => {
   const fetcher = useFetcher();
+  const { pathname } = useLocation();
   const request = (
     route:
       | "switchUser"
@@ -19,6 +20,7 @@ export const useAPI = (params: Readonly<Params<string>>) => {
       | "sendEmbed"
       | "removeBan"
       | "removePunishment"
+      | "setTheme"
       | "removeEmbed",
     formData?: FormData
   ) => {
@@ -68,6 +70,11 @@ export const useAPI = (params: Readonly<Params<string>>) => {
         break;
       case "removeInvite":
         url = `/${params?.guild}/users/${params?.member}/api/removeInvite`;
+        break;
+      case "setTheme":
+        url = "/api/setTheme";
+        if (!formData) formData = new FormData();
+        formData.append("pathname", pathname);
         break;
       default:
         url = "";

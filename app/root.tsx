@@ -1,8 +1,8 @@
 import { useMantineTheme } from "@mantine/core";
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import type { BrowserHistory } from "history";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { UNSAFE_NavigationContext, useLocation } from "react-router";
 import LoadingBar from "react-top-loading-bar";
@@ -14,15 +14,22 @@ import { Document } from "./shared-components/Document";
 import i18next from "~/i18next.server";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import appIcon from "~/media/branding/App.png";
+import { Loading as Loader } from "./ui/Loading";
+import { userPrefs } from "~/cookies";
 export { ErrorBoundary } from "~/shared-components/ErrorBoundaryCode";
 export { CatchBoundary } from "~/shared-components/CatchBoundary";
 
-type LoaderData = { locale: string };
+type LoaderData = {
+  locale: string;
+  userPrefs: { theme: undefined | "dark" | "light" | "system" };
+};
 
 export let loader: LoaderFunction = async ({ request }) => {
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = await userPrefs.parse(cookieHeader);
+
   let locale = await i18next.getLocale(request);
-  return json<LoaderData>({ locale });
+  return json<LoaderData>({ locale, userPrefs: cookie });
 };
 
 export let handle = {
@@ -41,31 +48,11 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Netor - A bot that fully integrates with Discord",
-  viewport: "width=device-width,initial-scale=1",
-  name: "Netor - A bot that fully integrates with Discord",
-  description:
-    "Moderate with ease. No need for extra commands, right click on the user and ban. Automatically logs all punishments.",
-  "og:type": "website",
-  "og:url": "https://netor.zelr.me",
-  "og:title": "Netor - A bot that fully integrates with Discord",
-  "og:description":
-    "Moderate with ease. No need for extra commands, right click on the user and ban. Automatically logs all punishments.",
-  "og:image": appIcon,
-  "twitter:card": "summary_large_image",
-  "twitter:url": "https://netor.zelr.me",
-  "twitter:title": "Netor - A bot that fully integrates with Discord",
-  "twitter:description":
-    "Moderate with ease. No need for extra commands, right click on the user and ban. Automatically logs all punishments.",
-  "twitter:image": appIcon,
-});
-
 export default function App() {
   const [progress, setProgress] = useState(0);
   const location = useLocation();
   const theme = useMantineTheme();
+  const [loading, setLoading] = useState(true);
 
   const navigation = useContext(UNSAFE_NavigationContext)
     .navigator as BrowserHistory;
@@ -78,6 +65,7 @@ export default function App() {
   }, [navigation]);
 
   React.useEffect(() => {
+    setLoading(false);
     setProgress(100);
   }, [location]);
 
@@ -90,6 +78,7 @@ export default function App() {
         onLoaderFinished={() => setProgress(0)}
       />
       <DevBuild />
+      <Loader loading={loading} />
       <Outlet />
     </Document>
   );

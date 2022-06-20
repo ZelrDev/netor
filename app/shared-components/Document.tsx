@@ -19,40 +19,70 @@ import { NotificationsProvider } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
 import { useChangeLanguage } from "remix-i18next";
 import { PathnameContextProvider } from "~/contexts/Pathname";
+import { useAPI } from "~/shared-hooks/use-api";
 
 interface DocumentProps {
   children: React.ReactNode;
+  error?: boolean;
 }
 
-type LoaderData = { locale: string };
+type LoaderData = {
+  locale: string;
+  userPrefs: { theme: undefined | "dark" | "light" | "system" };
+};
 
-export function MantineTheme({ children }: { children: React.ReactNode }) {
+export function MantineTheme({
+  children,
+  error,
+}: {
+  children: React.ReactNode;
+  error?: boolean;
+}) {
   const preferredColorScheme = useColorScheme(undefined);
+  let userPrefs: { theme: undefined | "dark" | "light" | "system" } | null = {
+    theme: "system",
+  };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  if (!error) userPrefs = useLoaderData().userPrefs;
 
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme | "system">(
-    "color-scheme",
-    "system"
-  );
+  const api = useAPI();
+
   useEffect(() => {
-    if (colorScheme == null) setColorScheme("system");
+    if (userPrefs?.theme == undefined) {
+      let formData = new FormData();
+      formData.append("theme", "system");
+      api("setTheme", formData);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorScheme]);
-
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
-
+  }, [userPrefs]);
+  const toggleColorScheme = (value?: ColorScheme) => {
+    let formData = new FormData();
+    formData.append(
+      "theme",
+      value || userPrefs?.theme === "dark" ? "light" : "dark"
+    );
+    api("setTheme", formData);
+  };
   return (
     <ColorSchemeProvider
       colorScheme={
-        colorScheme === "system" ? preferredColorScheme : colorScheme
+        userPrefs?.theme === "system"
+          ? preferredColorScheme
+          : userPrefs?.theme === undefined
+          ? preferredColorScheme
+          : userPrefs?.theme
       }
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
         theme={{
           colorScheme:
-            colorScheme === "system" ? preferredColorScheme : colorScheme,
+            userPrefs?.theme === "system"
+              ? preferredColorScheme
+              : userPrefs?.theme,
           primaryColor: "indigo",
+          fontFamily: "Inter var, sans-serif",
+          headings: { fontFamily: "Inter var, sans-serif" },
         }}
         withNormalizeCSS
         withGlobalStyles
@@ -65,19 +95,16 @@ export function MantineTheme({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function Document({ children }: DocumentProps) {
+export function Document({ children, error }: DocumentProps) {
   const clientStyleData = useContext(ClientStyleContext);
-  // Get the locale from the loader
-  let { locale } = useLoaderData<LoaderData>();
+  let locale = "";
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  if (!error) locale = useLoaderData<LoaderData>().locale;
+  else locale = "en";
 
   let { i18n } = useTranslation();
   const [pathname, setPathname] = useState<string>("");
   const location = useLocation();
-
-  // This hook will change the i18n instance language to the current locale
-  // detected by the loader, this way, when we do something to change the
-  // language, this locale will change and i18next will load the correct
-  // translation files
   useChangeLanguage(locale);
 
   useEffect(() => {
@@ -103,7 +130,7 @@ export function Document({ children }: DocumentProps) {
         <Links />
       </head>
       <body>
-        <MantineTheme>
+        <MantineTheme error={error}>
           <PathnameContextProvider value={{ pathname, setPathname }}>
             {children}
           </PathnameContextProvider>

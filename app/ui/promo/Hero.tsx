@@ -103,7 +103,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function Hero(props: { _ref: React.RefObject<HTMLDivElement> }) {
+export function Hero(props: {
+  _ref: React.RefObject<HTMLDivElement>;
+  appID: string;
+}) {
   const { classes, cx } = useStyles();
 
   return (
@@ -128,7 +131,18 @@ export function Hero(props: { _ref: React.RefObject<HTMLDivElement> }) {
           </Container>
 
           <div className={classes.controls}>
-            <Button className={classes.control} variant="white" size="lg">
+            <Button
+              onClick={() =>
+                window.open(
+                  `https://discord.com/api/oauth2/authorize?client_id=${props.appID}&permissions=8&scope=bot%20applications.commands`,
+                  "popup",
+                  "width=500,height=700"
+                )
+              }
+              className={classes.control}
+              variant="white"
+              size="lg"
+            >
               Invite bot
             </Button>
             <Button

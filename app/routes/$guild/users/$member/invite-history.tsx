@@ -12,8 +12,8 @@ import type { LoaderData } from "../$member";
 import { useGenericDiscordUser } from "~/shared-hooks/use-generic-discord-user";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import { error } from "~/lib/error";
-
-export const meta: MetaFunction = () => ({
+import { customMeta } from "~/meta";
+export const meta: MetaFunction = customMeta({
   title: "User Invite History | Netor",
 });
 

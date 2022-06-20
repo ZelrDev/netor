@@ -12,8 +12,8 @@ import { useData } from "~/shared-hooks/use-data";
 import { useGenericDiscordUser } from "~/shared-hooks/use-generic-discord-user";
 import i18n from "~/i18next.server";
 import { error } from "~/lib/error";
-
-export const meta: MetaFunction = () => ({
+import { customMeta } from "~/meta";
+export const meta: MetaFunction = customMeta({
   title: "User Punishment History | Netor",
 });
 

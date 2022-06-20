@@ -18,16 +18,14 @@ import type { LoaderData } from "~/routes/$guild";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import i18n from "~/i18next.server";
 import { error } from "~/lib/error";
+import { customMeta } from "~/meta";
+export const meta: MetaFunction = customMeta({ title: "Users | Netor" });
 
 type RouteLoaderData = {
   apiGuildMembers: APIGuildMembers;
   apiGuildBannedMembers: APIGuildBannedMembers;
   apiGuildRoles: APIGuildRoles;
 };
-
-export const meta: MetaFunction = () => ({
-  title: "Users | Netor",
-});
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   let t = await i18n.getFixedT(request);

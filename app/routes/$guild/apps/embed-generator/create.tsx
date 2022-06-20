@@ -15,14 +15,14 @@ import ListIndex from "./index";
 import { PathnameContext } from "~/contexts/Pathname";
 import { error } from "~/lib/error";
 import { convertDiscordEmbedToDBEmbed } from "~/lib/convertDiscordEmbedToDBEmbed";
+import { customMeta } from "~/meta";
+export const meta: MetaFunction = customMeta({
+  title: "Create Embed | Netor",
+});
 
 type RouteLoaderData = {
   dbGuildEmbeds: DBGuildEmbeds;
 };
-
-export const meta: MetaFunction = () => ({
-  title: "Create Embed | Netor",
-});
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get("Cookie"));

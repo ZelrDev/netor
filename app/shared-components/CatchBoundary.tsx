@@ -65,7 +65,7 @@ export const CatchBoundary = () => {
   return caught.data?.raw_error ? (
     caught.data?.message
   ) : (
-    <Document>
+    <Document error>
       <Container className={classes.root}>
         <div className={classes.label}>{caught?.status}</div>
         <Title className={classes.title}>

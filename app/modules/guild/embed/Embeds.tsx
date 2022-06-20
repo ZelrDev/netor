@@ -41,7 +41,7 @@ export const Embeds = (props: {
                   theme.colorScheme === "dark"
                     ? theme.colors.dark[9]
                     : theme.colors.gray[0],
-                minWidth: 200,
+                minWidth: 240,
               })}
             >
               <Stack key={idx} id={idx.toString()}>

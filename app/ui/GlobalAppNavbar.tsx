@@ -218,13 +218,7 @@ export function GlobalAppNavbar({
   ];
 
   const mainLinks = mainLinksData.map((link) => (
-    <Tooltip
-      label={link.label}
-      position="right"
-      withArrow
-      transitionDuration={0}
-      key={link.label}
-    >
+    <Tooltip label={link.label} position="right" withArrow key={link.label}>
       <div className={classes.mainLinkWrapper}>
         {isActive(link.href) && <div className={classes.mainLinkPill}></div>}
         <Anchor component={Link} to={navigateURL(link.href)}>

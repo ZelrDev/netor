@@ -6,14 +6,27 @@ import punishmentHistory from "~/media/images/punishment_history.png";
 import configCommandList from "~/media/images/config_command_list.png";
 import viewUser from "~/media/images/view_user.png";
 import { useRef } from "react";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
+import { useLoaderData } from "@remix-run/react";
+export { meta } from "~/meta";
+
+type LoaderData = { appID: string };
+
+export let loader: LoaderFunction = async ({ request }) => {
+  return json<LoaderData>({
+    appID: process.env.DISCORD_APPLICATION_ID!.toString(),
+  });
+};
 
 export default function Index() {
   const theme = useMantineTheme();
   const ref = useRef<HTMLDivElement>(null);
+  const { appID } = useLoaderData() as LoaderData;
 
   return (
     <Box>
-      <Hero _ref={ref} />
+      <Hero appID={appID} _ref={ref} />
       <FeatureImage
         _ref={ref}
         name="Easily"

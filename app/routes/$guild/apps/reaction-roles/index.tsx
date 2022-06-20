@@ -8,8 +8,8 @@ import type { LoaderData } from "~/routes/$guild/apps";
 import { useData } from "~/shared-hooks/use-data";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import { error } from "~/lib/error";
-
-export const meta: MetaFunction = () => ({
+import { customMeta } from "~/meta";
+export const meta: MetaFunction = customMeta({
   title: "Reaction Roles | Netor",
 });
 

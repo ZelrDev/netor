@@ -14,8 +14,8 @@ import type { LoaderData } from "../../apps";
 import i18n from "~/i18next.server";
 import { useTypeSafeTranslation } from "~/shared-hooks/use-type-safe-translation";
 import { error } from "~/lib/error";
-
-export const meta: MetaFunction = () => ({
+import { customMeta } from "~/meta";
+export const meta: MetaFunction = customMeta({
   title: "Create Reaction Role | Netor",
 });
 

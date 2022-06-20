@@ -15,7 +15,7 @@ type LoaderData = { appID: string };
 
 export let loader: LoaderFunction = async ({ request }) => {
   return json<LoaderData>({
-    appID: process.env.DISCORD_APPLICATION_ID!.toString(),
+    appID: process.env.DISCORD_APPLICATION_ID || "".toString(),
   });
 };
 
